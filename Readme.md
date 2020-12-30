@@ -4,6 +4,24 @@ Path Template is a simple to configure templating system designed at relatively 
 Client code can define a set of Tokens that are in the dictionary of data by creating a subclass of `path_template.Token`.  
 Advanced users have the ability to define custom Operators that can modify the data in the dictionary.  
 
+# Design Goals
+Path Template is designed with non technical editors in mind. These people use computers but have very limited (if at all) experience with programming.  
+
+The goal isn't to allow for arbitrary code run from the template. The default Operator subset is small for a reason, if there are advanced use cases you need, consider implementing them yourself if they are too large in scope.  
+
+We also want useful error messages. Providing errors with character numbers when templates cannot be parsed for example.    
+
+I want this system to be extensible, allow client code to provide custom Operators or Tokens as needed.   
+
+Speed is not a design goal currently, this is python, if you are doing large scale templating, there are more complex libraries for that.
+
+
+# Contributing
+Contributions are encouraged!
+If you have a large code refactor or a significant change, starting an issue to discuss the change and plan is recommended.  
+If you want to help with documentation, that is somewhere that we also need more work on as well. 
+
+# Examples
 ## Hello World Example
 There is some test coverage which can operate as simple examples that may go beyond this example.  
 ```python
