@@ -15,16 +15,19 @@ Clients can provide custom Tokens by [extending the system](#extending-the-syste
 
 
 ## Template Configuration File
-The template configuration file will contain the following yaml keys
+The template configuration file will contain the following yaml keys  
+```
   FramesTemplate
   MovieTemplate
   [Custom Operators Function] - Optional? Falls back to hook?
   [Custom Tokens Function]    - Optional? Falls back to hook?
-
+```
 
 ## Extending The System
-The templating system allows defining custom Operators via registration callbacks. In our implementation we will pass client provided Operators to the library.
-The templating system expects a token schema to be fully realized before implementing a parser. In our case, we want to allow the client to provide custom Tokens from a Version entity. We do this by by allowing the client code to provide us a mapping of Version entity fields to Token names.
+The templating system allows defining custom Operators via registration callbacks. In our implementation we will pass client provided Operators to the library.  
+The templating system expects a token schema to be fully realized before implementing a parser.  
+In our case, we want to allow the client to provide custom Tokens from a Version entity.  
+We do this by by allowing the client code to provide us a mapping of Version entity fields to Token names.
 
 
 # Token Syntax
@@ -44,7 +47,8 @@ In practice the schema looks like the following: `<Operator>([args])?`
 ```
 
 
-Built-in Operator list:
+# Built-in Operator list:
+```
   lower
     Args: None
     Description: Makes the entire Token lower case
@@ -56,7 +60,7 @@ Built-in Operator list:
   substr
     Args: int Start, int End
     Description: Grabs a subset of the Token.
-
+```
 
 # Default Tokens
 In our Shotgun framework, we provide the following default Tokens:
