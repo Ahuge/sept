@@ -43,8 +43,13 @@ class Template(object):
         return resolved_token
 
     @classmethod
+    def sanitize_template_str(cls, template_str):
+        return template_str.replace(" ", "")
+
+    @classmethod
     def from_template_str(cls, template_str, tmanager, omanager, default_fallback=False):
         matches = []
+        template_str = cls.sanitize_template_str(template_str)
 
         for results, tok_start, tok_end in Tokenizer.scanString(template_str):
             match = results.match
