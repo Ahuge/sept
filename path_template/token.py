@@ -32,7 +32,7 @@ class ResolvedToken(object):
 
         previous_operator = None
         for operator in self.operators:
-            is_invalid_data = operator.invalid(transformed_data)
+            is_invalid_data = operator.is_invalid(transformed_data)
             if is_invalid_data:
                 error = "The Operator {opname} received invalid data and " \
                         "could not continue. {opname} threw the error: " \
