@@ -56,7 +56,11 @@ def parseAction(string, location, tokens):
     operator = tokens.Operator
     operator_args = tokens.Args
     token = tokens.Token or tokens[-2]
-    length = sum(map(len, tokens))
+    length = sum(map(len, filter(lambda t: t is not None, tokens)))
+
+    if operator_args:
+        # We add n-1 length to handle the commas
+        length += len(operator_args) - 1
     end = location + length
     if isinstance(token, Node):
         new_node = Node(
@@ -81,7 +85,7 @@ def parseAction(string, location, tokens):
     return new_node
 
 
-Tokenizer = pyparsing.Forward().setResultsName("recursive_expr")
+Tokenizer = pyparsing.Forward().setResultsName("match")
 
 Tokenizer << (
     token_group_start +
