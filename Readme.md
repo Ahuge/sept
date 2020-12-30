@@ -17,9 +17,9 @@ Speed is not a design goal currently, this is python, if you are doing large sca
 
 
 # Contributing
-Contributions are encouraged!
+Contributions are encouraged!  
 If you have a large code refactor or a significant change, starting an issue to discuss the change and plan is recommended.  
-If you want to help with documentation, that is somewhere that we also need more work on as well. 
+If you want to help with documentation, that is somewhere that we also need more work on as well.  
 
 # Examples
 ## Hello World Example
