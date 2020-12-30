@@ -8,10 +8,12 @@ class PathTemplateParser(object):
         super(PathTemplateParser, self).__init__()
 
         self._token_manager = TokenManager()
-        self._token_manager.add_custom_tokens(additional_tokens)
+        if additional_tokens:
+            self._token_manager.add_custom_tokens(additional_tokens)
 
         self._operator_manager = OperatorManager()
-        self._operator_manager.add_custom_operators(additional_operators)
+        if additional_operators:
+            self._operator_manager.add_custom_operators(additional_operators)
 
     def parse(self, template, data):
         if not isinstance(template, Template):
