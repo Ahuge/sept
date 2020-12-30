@@ -20,11 +20,6 @@ class SubStringOperator(Operator):
             return "Invalid argument values passed to {name}. We expect one " \
                    "or two arguments that are either a number or either " \
                    "\"start\" or \"end\" text values.".format(name=self.name)
-        for arg in args:
-            if not isinstance(arg, int) and arg not in self.keywords:
-                return "Invalid argument values passed to {name}. Values " \
-                       "need to be number values, we recieved {type} instead."\
-                    .format(name=self.name, type=type(arg))
         if isinstance(token_value, self.DATA_TYPES):
             # Is valid
             return None
@@ -55,8 +50,12 @@ class SubStringOperator(Operator):
 
         if start in self.keywords:
             start = self.keywords.get(start)
+        else:
+            start = int(start)
         if end in self.keywords:
             end = self.keywords.get(end)
+        elif end is not None:
+            end = int(end)
 
         if end:
             return input_data[start:end]
