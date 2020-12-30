@@ -9,3 +9,4 @@ class TokenNameAlreadyExists(PathTemplateError): pass
 class OperatorNameAlreadyExists(PathTemplateError): pass
 
 class InvalidOperatorArgumentsError(PathTemplateError): pass
+class InvalidOperatorInputDataError(PathTemplateError): pass
