@@ -1,0 +1,2 @@
+class TokenManager(object):
+    pass

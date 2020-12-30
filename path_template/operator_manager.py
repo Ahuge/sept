@@ -1,0 +1,2 @@
+class OperatorManager(object):
+    pass
