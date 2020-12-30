@@ -2,7 +2,7 @@ from path_template.errors import InvalidOperatorInputDataError
 
 
 class Token(object):
-    token_name = NotImplementedError
+    name = NotImplementedError
 
     def getValue(self, data):
         raise NotImplementedError
@@ -22,8 +22,8 @@ class ResolvedToken(object):
         # Used to pull `getValue` and other data from
         self.raw_token = raw_token
         self.operators = operators
-        self.tok_start = tok_start
-        self.tok_end = tok_end
+        self.start = tok_start
+        self.end = tok_end
         self.original_string = original_string
 
     def execute(self, version_data):
