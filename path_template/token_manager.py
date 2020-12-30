@@ -10,20 +10,22 @@ class TokenManager(object):
 
         from path_template.builtin.tokens import ALL_TOKENS
         for token_klass in ALL_TOKENS:
-            self._cache[token_klass.name] = token_klass()
+            token_name = token_klass.name.lower()
+            self._cache[token_name] = token_klass()
 
     def add_custom_tokens(self, custom_tokens, dont_overwrite=True):
         for custom_token in custom_tokens:
-            if custom_token.name in self._cache and dont_overwrite:
+            token_name = custom_token.name.lower()
+            if token_name in self._cache and dont_overwrite:
                 raise TokenNameAlreadyExists(
                     "A Token with the name {name} already exists as {value}. "
                     "If you wish to overwrite that value, make sure you pass "
                     "`dont_overwrite=True` when adding custom tokens.".format(
                         name=custom_token.name,
-                        value=self._cache[custom_token.name],
+                        value=self._cache[token_name],
                     )
                 )
-            self._cache[custom_token.name] = custom_token()
+            self._cache[token_name] = custom_token()
 
     def _bind_token(self, token_name, operator_instance, tok_start, tok_end, orig_str):
         if isinstance(token_name, ResolvedToken):
