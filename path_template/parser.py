@@ -21,10 +21,11 @@ class PathTemplateParser(object):
 
         return template.resolve(data)
 
-    def validate_template(self, template_str):
+    def validate_template(self, template_str, default_fallback_token=False):
         template = Template.from_template_str(
             template_str=template_str,
             tmanager=self._token_manager,
-            omanager=self._operator_manager
+            omanager=self._operator_manager,
+            default_fallback=default_fallback_token
         )
         return template

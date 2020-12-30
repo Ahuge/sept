@@ -27,15 +27,19 @@ class TokenManager(object):
                 )
             self._cache[token_name] = custom_token()
 
-    def _bind_token(self, token_name, operator_instance, tok_start, tok_end, orig_str):
+    def _bind_token(self, token_name, operator_instance, tok_start, tok_end, orig_str, use_default=False):
         if isinstance(token_name, ResolvedToken):
             # It is a nested ResolvedToken.
             resolved_token = token_name
-            raw_token = self._cache[resolved_token.raw_token]
+            raw_token = resolved_token.raw_token
             operators = resolved_token.operators
             operators.append(operator_instance)
         else:
-            raw_token = self._cache[token_name]
+            if use_default:
+                from path_template.builtin.tokens import DefaultTokenFactory
+                raw_token = DefaultTokenFactory(token_name)()
+            else:
+                raw_token = self._cache[token_name]
             operators = [operator_instance]
 
         return ResolvedToken(
@@ -47,20 +51,26 @@ class TokenManager(object):
             original_string=orig_str
         )
 
-    def bind_token(self, token, operator, tok_start, tok_end, tok_original_string):
-        if token not in self._cache and not isinstance(token, ResolvedToken):
-            error = "Could not find a registered token matching: \"{name}\"\n" \
-                    "Found from {start} to {end}: \"{msg}\""
-            raise TokenNotFoundError(error.format(
-                name=token,
-                start=tok_start,
-                end=tok_end,
-                msg=tok_original_string
-            ))
+    def bind_token(self, token, operator, tok_start, tok_end, tok_original_string, default_fallback=False):
+        use_default_fallback = False
+        if not isinstance(token, ResolvedToken):
+            token = token.lower().strip(" ")
+            if token not in self._cache:
+                if not default_fallback:
+                    error = "Could not find a registered token matching: " \
+                            "\"{name}\"\nFound from {start} to {end}: \"{msg}\""
+                    raise TokenNotFoundError(error.format(
+                        name=token,
+                        start=tok_start,
+                        end=tok_end,
+                        msg=tok_original_string
+                    ))
+                use_default_fallback = True
         return self._bind_token(
             token_name=token,
             operator_instance=operator,
             tok_start=tok_start,
             tok_end=tok_end,
-            orig_str=tok_original_string
+            orig_str=tok_original_string,
+            use_default=use_default_fallback
         )

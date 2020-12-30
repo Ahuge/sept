@@ -8,7 +8,7 @@ class Template(object):
         self._resolved_tokens = []
 
     @classmethod
-    def _gather_match(cls, match, tmanager, omanager):
+    def _gather_match(cls, match, tmanager, omanager, default_fallback=False):
         _Operator = omanager.getOperator("NULL")
 
         if match.Operator:
@@ -17,17 +17,24 @@ class Template(object):
                 args = match.Args
             _Operator = omanager.getOperator(match.Operator, args=args)
         if match.child:
-            resolved_token = cls._gather_match(match.child, tmanager, omanager)
+            resolved_token = cls._gather_match(
+                match=match.child,
+                tmanager=tmanager,
+                omanager=omanager,
+                default_fallback=default_fallback
+            )
             resolved_token = tmanager.bind_token(
                 token=resolved_token, operator=_Operator,
                 tok_start=match.start, tok_end=match.end,
                 tok_original_string=match.original_str,
+                default_fallback=default_fallback
             )
         elif match.Token:
             resolved_token = tmanager.bind_token(
                 token=match.Token, operator=_Operator,
                 tok_start=match.start, tok_end=match.end,
                 tok_original_string=match.original_str,
+                default_fallback=default_fallback
             )
         else:
             # raise ParsingError("Found Operator without corresponding token.")
@@ -36,11 +43,17 @@ class Template(object):
         return resolved_token
 
     @classmethod
-    def from_template_str(cls, template_str, tmanager, omanager):
+    def from_template_str(cls, template_str, tmanager, omanager, default_fallback=False):
         matches = []
 
-        for match, tok_start, tok_end in Tokenizer.scanString(template_str):
-            resolved_token = cls._gather_match(match, tmanager, omanager)
+        for results, tok_start, tok_end in Tokenizer.scanString(template_str):
+            match = results.match
+            resolved_token = cls._gather_match(
+                match=match,
+                tmanager=tmanager,
+                omanager=omanager,
+                default_fallback=default_fallback
+            )
             matches.append(resolved_token)
         T = Template()
         T._template_str = template_str
