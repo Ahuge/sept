@@ -66,14 +66,9 @@ data = {
   "last": "Hughes",
 }
 
-class FirstNameToken(Token):
-    name = "first"
-    def getValue(self, data):
-        return data.get("user", {}).get("HumanUser", {}).get("first")
-
 
 template_str = "/home/{{substr[0, 1]: {{lower: first}}}}{{lower: last}}"
-parser = PathTemplateParser(additional_tokens=[FirstNameToken])
+parser = PathTemplateParser()
 
 template = parser.validate_template(template_str)
 resolved_path = template.resolve(data)
@@ -89,6 +84,72 @@ In the previous example I told you to ignore the `{{substr[0, 1]: ...}}` syntax 
 That was us passing arguments to the `substr` Operator.  In the case above, we passed 2 values, 0 and 1.  
 In `path_template` Operators can accept arguments and they are defined within square brackets, comma delimited.   
 
+
+## Custom Operators
+```python
+import six
+
+from path_template import PathTemplateParser, Operator
+data = {
+  "first": "Alex",
+  "last": "Hughes",
+}
+
+class ReverseOperator(Operator):
+    name = "reverse"
+    DATA_TYPES = (six.text_type, six.binary_type)
+    def is_invalid(self, token_value):
+        if isinstance(token_value, self.DATA_TYPES):
+            # Is valid
+            return None
+        elif not token_value:
+            # Value is empty
+            return "Missing text value"
+        return "Value must be one of the following data types ({})".format(
+            self.DATA_TYPES
+        )
+
+    def execute(self, input_data):
+        output_data = ""
+        for char in reversed(input_data):
+            output_data += char
+        return output_data
+
+
+template_str = "/home/{{reverse: last}}"
+parser = PathTemplateParser(additional_operators=[ReverseOperator])
+
+template = parser.validate_template(template_str)
+resolved_path = template.resolve(data)
+# /home/sehguh
+```
+This is very similar to our Token example, the Operator schema is two functions.  
+```python
+def is_invalid(self, token_value):
+    """
+    is_invalid will check the value the is about to be operated on.
+    If the value will not work for some reason (wrong datatype, etc),
+        this method should return an error message as a string.
+    
+    If it looks good to go, just return None
+    
+    :param Any token_value: Data that would be operated on
+    :return: A Falsey value if everything is ok, or an error string if not.
+    :rtype: None|str
+    """
+
+def execute(self, input_data):
+    """
+    execute does the actual work of your custom Operator.
+    It will take in the data passed and return the transformed data as
+        output.
+
+    :param Any input_data:
+    :return: The transformed data according to whatever the Operator is
+        supposed to do.
+    :rtype: Any
+    """
+```
 
 # Provided Operators
 ## LowerOperator
