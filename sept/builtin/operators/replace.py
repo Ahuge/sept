@@ -5,7 +5,7 @@ from sept.operator import Operator
 
 
 class ReplaceOperator(Operator):
-    name = "substr"
+    name = "replace"
     SPACE = "\\s"
     DATA_TYPES = (six.text_type, six.binary_type)
     keywords = {
