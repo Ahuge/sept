@@ -49,8 +49,8 @@ jobs:
                 echo "Uploading: $(ls dist/*.whl | tr '\r\n' ' ')"
                 twine upload dist/*.whl --verbose --skip-existing
               env:
-                  TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-                  TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+                  TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+                  TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
                   TWINE_NON_INTERACTIVE: 1
             - name: Upload Python 2 Wheel To Github
               uses: actions/upload-release-asset@v1.0.1
