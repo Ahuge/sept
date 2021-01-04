@@ -15,8 +15,10 @@ class ReplaceOperator(Operator):
     def is_invalid(self, token_value):
         args = self._args
         if not args or len(args) != 2:
-            return "Invalid argument values passed to {name}. We expect two " \
-                   "arguments that are text values.".format(name=self.name)
+            return (
+                "Invalid argument values passed to {name}. We expect two "
+                "arguments that are text values.".format(name=self.name)
+            )
         if isinstance(token_value, self.DATA_TYPES):
             # Is valid
             return None

@@ -21,20 +21,24 @@ class Template(object):
                 match=match.child,
                 tmanager=tmanager,
                 omanager=omanager,
-                default_fallback=default_fallback
+                default_fallback=default_fallback,
             )
             resolved_token = tmanager.bind_token(
-                token=resolved_token, operator=_Operator,
-                tok_start=match.start, tok_end=match.end,
+                token=resolved_token,
+                operator=_Operator,
+                tok_start=match.start,
+                tok_end=match.end,
                 tok_original_string=match.original_str,
-                default_fallback=default_fallback
+                default_fallback=default_fallback,
             )
         elif match.Token:
             resolved_token = tmanager.bind_token(
-                token=match.Token, operator=_Operator,
-                tok_start=match.start, tok_end=match.end,
+                token=match.Token,
+                operator=_Operator,
+                tok_start=match.start,
+                tok_end=match.end,
                 tok_original_string=match.original_str,
-                default_fallback=default_fallback
+                default_fallback=default_fallback,
             )
         else:
             # raise ParsingError("Found Operator without corresponding token.")
@@ -47,7 +51,9 @@ class Template(object):
         return template_str.replace(" ", "")
 
     @classmethod
-    def from_template_str(cls, template_str, tmanager, omanager, default_fallback=False):
+    def from_template_str(
+        cls, template_str, tmanager, omanager, default_fallback=False
+    ):
         matches = []
         template_str = cls.sanitize_template_str(template_str)
 
@@ -57,7 +63,7 @@ class Template(object):
                 match=match,
                 tmanager=tmanager,
                 omanager=omanager,
-                default_fallback=default_fallback
+                default_fallback=default_fallback,
             )
             matches.append(resolved_token)
         T = Template()
@@ -72,9 +78,9 @@ class Template(object):
             start = resolved_token.start
             end = resolved_token.end
             before, target, after = (
-                result_str[:start+offset],
-                result_str[start+offset:end+offset],
-                result_str[end+offset:]
+                result_str[: start + offset],
+                result_str[start + offset : end + offset],
+                result_str[end + offset :],
             )
             transformed = resolved_token.execute(data)
             result_str = before + transformed + after

@@ -7,6 +7,7 @@ class OperatorManager(object):
         self._cache = {}
 
         from sept.builtin.operators import ALL_OPERATORS
+
         for operator_klass in ALL_OPERATORS:
             self._cache[operator_klass.name] = operator_klass
 

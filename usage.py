@@ -30,7 +30,9 @@ class FirstCharacterOperator(Operator):
         elif not token_value:
             # Value is empty
             return "Missing text value"
-        return "Value must be one of the following data types ({})".format(self.DATA_TYPES)
+        return "Value must be one of the following data types ({})".format(
+            self.DATA_TYPES
+        )
 
     def execute(self, token_value, *args, **kwargs):
         return token_value[0]

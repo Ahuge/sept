@@ -1,3 +1,3 @@
-from default import DefaultTokenFactory
+from .default import DefaultTokenFactory
 
 ALL_TOKENS = []
