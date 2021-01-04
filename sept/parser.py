@@ -26,6 +26,6 @@ class PathTemplateParser(object):
             template_str=template_str,
             tmanager=self._token_manager,
             omanager=self._operator_manager,
-            default_fallback=default_fallback_token
+            default_fallback=default_fallback_token,
         )
         return template

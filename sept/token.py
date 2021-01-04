@@ -34,15 +34,19 @@ class ResolvedToken(object):
         for operator in self.operators:
             is_invalid_data = operator.is_invalid(transformed_data)
             if is_invalid_data:
-                error = "The Operator {opname} received invalid data and " \
-                        "could not continue. {opname} threw the error: " \
-                        "\"{errmsg}\". The previous Operator was {prevop}, " \
-                        "maybe the error originated there?"
-                raise InvalidOperatorInputDataError(error.format(
-                    opname=operator.name,
-                    errmsg=is_invalid_data,
-                    prevop=previous_operator,
-                ))
+                error = (
+                    "The Operator {opname} received invalid data and "
+                    "could not continue. {opname} threw the error: "
+                    '"{errmsg}". The previous Operator was {prevop}, '
+                    "maybe the error originated there?"
+                )
+                raise InvalidOperatorInputDataError(
+                    error.format(
+                        opname=operator.name,
+                        errmsg=is_invalid_data,
+                        prevop=previous_operator,
+                    )
+                )
             transformed_data = operator.execute(transformed_data)
             previous_operator = operator
         return transformed_data

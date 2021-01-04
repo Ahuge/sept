@@ -1,12 +1,26 @@
-class PathTemplateError(RuntimeError): pass
+class PathTemplateError(RuntimeError):
+    pass
 
 
-class TokenNotFoundError(PathTemplateError): pass
-class OperatorNotFoundError(PathTemplateError): pass
+class TokenNotFoundError(PathTemplateError):
+    pass
 
 
-class TokenNameAlreadyExists(PathTemplateError): pass
-class OperatorNameAlreadyExists(PathTemplateError): pass
+class OperatorNotFoundError(PathTemplateError):
+    pass
 
-class InvalidOperatorArgumentsError(PathTemplateError): pass
-class InvalidOperatorInputDataError(PathTemplateError): pass
+
+class TokenNameAlreadyExists(PathTemplateError):
+    pass
+
+
+class OperatorNameAlreadyExists(PathTemplateError):
+    pass
+
+
+class InvalidOperatorArgumentsError(PathTemplateError):
+    pass
+
+
+class InvalidOperatorInputDataError(PathTemplateError):
+    pass
