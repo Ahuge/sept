@@ -1,5 +1,5 @@
-# Path Template
-Path Template is a simple to configure templating system designed at relatively simple path translation or path generation from a dictionary of data.  
+# Simple Extensible Path Template
+The Simple Extensible Path Template (sept) is a simple to configure templating system designed at relatively simple path translation or path generation from a dictionary of data.  
 
 Client code can define a set of Tokens that are in the dictionary of data by creating a subclass of `path_template.Token`.  
 Advanced users have the ability to define custom Operators that can modify the data in the dictionary.  
