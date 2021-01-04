@@ -1,4 +1,4 @@
-from path_template.operator import Operator
+from sept.operator import Operator
 
 
 class NullOperator(Operator):

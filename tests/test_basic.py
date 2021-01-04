@@ -1,6 +1,6 @@
 import pytest
 
-from path_template.parser import PathTemplateParser
+from sept.parser import PathTemplateParser
 
 state_data = {
     "name": "AhUgHeS",
@@ -95,7 +95,7 @@ def test_lower_substr_nested():
 
 
 def test_add_custom_operator():
-    from path_template import Operator
+    from sept import Operator
     class SoupOperator(Operator):
         name = "soup"
 
@@ -117,7 +117,7 @@ def test_add_custom_operator():
 
 
 def test_add_custom_token():
-    from path_template import Token
+    from sept import Token
     class GithubUsernameToken(Token):
         name = "githubusername"
 
@@ -136,7 +136,7 @@ def test_add_custom_token():
 
 
 def test_add_custom_token_with_casing():
-    from path_template import Token
+    from sept import Token
     class GithubUsernameToken(Token):
         name = "githubUsername"
 

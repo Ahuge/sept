@@ -1,7 +1,7 @@
 import six
 
-from path_template.errors import InvalidOperatorArgumentsError
-from path_template.operator import Operator
+from sept.errors import InvalidOperatorArgumentsError
+from sept.operator import Operator
 
 
 class SubStringOperator(Operator):

@@ -1,4 +1,4 @@
-from path_template.template_tokenizer import Tokenizer
+from sept.template_tokenizer import Tokenizer
 
 
 class Template(object):

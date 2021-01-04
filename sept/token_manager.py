@@ -1,6 +1,6 @@
-from path_template.errors import TokenNotFoundError, TokenNameAlreadyExists
+from sept.errors import TokenNotFoundError, TokenNameAlreadyExists
 
-from path_template.token import ResolvedToken
+from sept.token import ResolvedToken
 
 
 class TokenManager(object):
@@ -8,7 +8,7 @@ class TokenManager(object):
         super(TokenManager, self).__init__()
         self._cache = {}
 
-        from path_template.builtin.tokens import ALL_TOKENS
+        from sept.builtin.tokens import ALL_TOKENS
         for token_klass in ALL_TOKENS:
             token_name = token_klass.name.lower()
             self._cache[token_name] = token_klass()
@@ -36,7 +36,7 @@ class TokenManager(object):
             operators.append(operator_instance)
         else:
             if use_default:
-                from path_template.builtin.tokens import DefaultTokenFactory
+                from sept.builtin.tokens import DefaultTokenFactory
                 raw_token = DefaultTokenFactory(token_name)()
             else:
                 raw_token = self._cache[token_name]

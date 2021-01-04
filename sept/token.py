@@ -1,4 +1,4 @@
-from path_template.errors import InvalidOperatorInputDataError
+from sept.errors import InvalidOperatorInputDataError
 
 
 class Token(object):

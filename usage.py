@@ -1,6 +1,6 @@
 import six
 
-from path_template import PathTemplateParser, Token, Operator
+from sept import PathTemplateParser, Token, Operator
 
 
 # Custom Tokens

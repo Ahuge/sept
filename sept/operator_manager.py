@@ -1,4 +1,4 @@
-from path_template.errors import OperatorNotFoundError, OperatorNameAlreadyExists
+from sept.errors import OperatorNotFoundError, OperatorNameAlreadyExists
 
 
 class OperatorManager(object):
@@ -6,7 +6,7 @@ class OperatorManager(object):
         super(OperatorManager, self).__init__()
         self._cache = {}
 
-        from path_template.builtin.operators import ALL_OPERATORS
+        from sept.builtin.operators import ALL_OPERATORS
         for operator_klass in ALL_OPERATORS:
             self._cache[operator_klass.name] = operator_klass
 

@@ -1,4 +1,4 @@
-from path_template.token import Token
+from sept.token import Token
 
 
 def DefaultTokenFactory(token_name):

@@ -1,6 +1,6 @@
-from path_template.token_manager import TokenManager
-from path_template.operator_manager import OperatorManager
-from path_template.template import Template
+from sept.token_manager import TokenManager
+from sept.operator_manager import OperatorManager
+from sept.template import Template
 
 
 class PathTemplateParser(object):
