@@ -16,7 +16,7 @@ jobs:
                 python-version: 2.7
                 architecture: x64
             - name: Pip2 install
-              run: pip2 install setuptools wheel
+              run: pip2 install setuptools wheel twine
 
             - name: Setup python 3
               uses: actions/setup-python@v2
@@ -24,7 +24,7 @@ jobs:
                 python-version: 3.x
                 architecture: x64
             - name: Pip3 install
-              run: pip3 install setuptools wheel
+              run: pip3 install setuptools wheel twine
 
             - name: Build Wheels
               id: build-wheel
