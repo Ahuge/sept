@@ -33,10 +33,12 @@ jobs:
                 python2 setup.py sdist bdist_wheel
                 # Build Python3
                 python3 setup.py sdist bdist_wheel
-                echo ::set-output name=asset-name-py2::$(ls dist/*py2*.whl | tr '\r\n' ' ')
-                echo ::set-output name=asset-name-py3::$(ls dist/*py3*.whl | tr '\r\n' ' ')
-                echo :: set-output name=asset-path-py2::${GITHUB_WORKSPACE}/dist/$(ls dist/*py2*.whl | tr '\r\n' ' ')
-                echo :: set-output name=asset-path-py3::${GITHUB_WORKSPACE}/dist/$(ls dist/*py3*.whl | tr '\r\n' ' ')
+                cd ${GITHUB_WORKSPACE}/dist
+                echo ::set-output name=asset-name-py2::$(ls ./*py2*.whl | tr '\r\n' ' ')
+                echo ::set-output name=asset-name-py3::$(ls ./*py3*.whl | tr '\r\n' ' ')
+                cd ${GITHUB_WORKSPACE}
+                echo ::set-output name=asset-path-py2::${GITHUB_WORKSPACE}/dist/$(ls dist/*py2*.whl | tr '\r\n' ' ')
+                echo ::set-output name=asset-path-py3::${GITHUB_WORKSPACE}/dist/$(ls dist/*py3*.whl | tr '\r\n' ' ')
 
             - name: Publish to PyPi
               run: |
