@@ -8,8 +8,24 @@ jobs:
     build_and_publish:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v1
+            - uses: actions/checkout@v2
               name: Checkout
+            - name: Setup python 2
+              uses: actions/setup-python@v2
+              with:
+                python-version: 2.7
+                architecture: x64
+            - name: Pip2 install
+              run: pip2 install setuptools wheel
+
+            - name: Setup python 3
+              uses: actions/setup-python@v2
+              with:
+                python-version: 3.x
+                architecture: x64
+            - name: Pip3 install
+              run: pip3 install setuptools wheel
+
             - name: Build Wheels
               id: build-wheel
               run: |
@@ -29,7 +45,7 @@ jobs:
                 twine check --strict dist/*.whl
                 echo "----------------------------"
                 echo "Uploading: $(ls dist/*.whl | tr '\r\n' ' ')"
-                twine upload dist/*.whl --verbose
+                echo "twine upload dist/*.whl --verbose"
               env:
                   TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
                   TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
