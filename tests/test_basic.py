@@ -6,6 +6,7 @@ state_data = {
     "name": "AhUgHeS",
     "first_name": "Alex",
     "last_name": "Hughes",
+    "data_with_space": "This is a sentence",
     "deep": {
         "nested": {
             "data": {
@@ -37,6 +38,17 @@ def test_upper():
 
     resolved_path = template_obj.resolve(state_data)
     assert resolved_path == "AHUGHES"
+
+
+def test_replace():
+    template_str = "{{replace[AhUgHeS,Bobby]: name}}"
+    template_obj = parser.validate_template(
+        template_str,
+        default_fallback_token=True
+    )
+
+    resolved_path = template_obj.resolve(state_data)
+    assert resolved_path == "Bobby"
 
 
 def test_substr():
@@ -81,6 +93,17 @@ def test_null_operator():
 
     resolved_path = template_obj.resolve(state_data)
     assert resolved_path == "AhUgHeS"
+
+
+def test_replace_keyword_space():
+    template_str = "{{replace[\s,-]: data_with_space}}"
+    template_obj = parser.validate_template(
+        template_str,
+        default_fallback_token=True
+    )
+
+    resolved_path = template_obj.resolve(state_data)
+    assert resolved_path == "This-is-a-sentence"
 
 
 def test_lower_substr_nested():
