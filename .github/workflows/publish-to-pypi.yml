@@ -1,0 +1,55 @@
+name: Publish Release to PyPi
+
+on:
+    release:
+        types: [published]
+
+jobs:
+    build_and_publish:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+              name: Checkout
+            - name: Build Wheels
+              id: build-wheel
+              run: |
+                # Build Python2
+                python2 setup.py sdist bdist_wheel
+                # Build Python3
+                python3 setup.py sdist bdist_wheel
+                echo ::set-output name=asset-name-py2::$(ls dist/*py2*.whl | tr '\r\n' ' ')
+                echo ::set-output name=asset-name-py3::$(ls dist/*py3*.whl | tr '\r\n' ' ')
+                echo :: set-output name=asset-path-py2::${GITHUB_WORKSPACE}/dist/$(ls dist/*py2*.whl | tr '\r\n' ' ')
+                echo :: set-output name=asset-path-py3::${GITHUB_WORKSPACE}/dist/$(ls dist/*py3*.whl | tr '\r\n' ' ')
+
+            - name: Publish to PyPi
+              run: |
+                echo "----------------------------"
+                echo "Checking: $(ls dist/*.whl | tr '\r\n' ' ')"
+                twine check --strict dist/*.whl
+                echo "----------------------------"
+                echo "Uploading: $(ls dist/*.whl | tr '\r\n' ' ')"
+                twine upload dist/*.whl --verbose
+              env:
+                  TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+                  TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+                  TWINE_NON_INTERACTIVE: 1
+            - name: Upload Python 2 Wheel To Github
+              uses: actions/upload-release-asset@v1.0.1
+              env: 
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.gen-upload-url.outputs.upload-url }}?name=${{ steps.build-wheel.outputs.asset-name-py2 }}
+                  asset_path: ${{ steps.build-wheel.outputs.asset-path-py2 }}
+                  asset_name: ${{ steps.build-wheel.outputs.asset-name-py2 }}
+                  asset_content_type: application/x-wheel+zip
+            - name: Upload Python 3 Wheel To Github
+              uses: actions/upload-release-asset@v1.0.1
+              env: 
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.gen-upload-url.outputs.upload-url }}?name=${{ steps.build-wheel.outputs.asset-name-py3 }}
+                  asset_path: ${{ steps.build-wheel.outputs.asset-path-py3 }}
+                  asset_name: ${{ steps.build-wheel.outputs.asset-name-py3 }}
+                  asset_content_type: application/x-wheel+zip
+
