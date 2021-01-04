@@ -11,16 +11,14 @@ operator_args = pyparsing.delimitedList(
     )
 )("Args")
 
-operator_arg_group = (
-    pyparsing.Literal("[") +
-    operator_args +
-    pyparsing.Literal("]")
-)
+operator_arg_group = pyparsing.Literal("[") + operator_args + pyparsing.Literal("]")
 
 operator = (
-    operator_name +
-    pyparsing.Optional(operator_arg_group,) +
-    pyparsing.Literal(":")
+    operator_name
+    + pyparsing.Optional(
+        operator_arg_group,
+    )
+    + pyparsing.Literal(":")
 )
 token_name = pyparsing.Word(pyparsing.printables, excludeChars="{}[]:")("Token")
 
@@ -72,7 +70,7 @@ def parseAction(string, location, tokens):
             Token=None,
             length=length,
             tok_start=location,
-            tok_str=string[location:end]
+            tok_str=string[location:end],
         )
     else:
         new_node = Node(
@@ -82,7 +80,7 @@ def parseAction(string, location, tokens):
             Token=token,
             length=length,
             tok_start=location,
-            tok_str=string[location:end]
+            tok_str=string[location:end],
         )
     return new_node
 
@@ -90,9 +88,9 @@ def parseAction(string, location, tokens):
 Tokenizer = pyparsing.Forward().setResultsName("match")
 
 Tokenizer << (
-    token_group_start +
-    pyparsing.Optional(operator, default=None) +
-    (Tokenizer | token_name) +
-    token_group_end
+    token_group_start
+    + pyparsing.Optional(operator, default=None)
+    + (Tokenizer | token_name)
+    + token_group_end
 )
 Tokenizer.setParseAction(parseAction)
