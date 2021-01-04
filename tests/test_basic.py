@@ -39,6 +39,17 @@ def test_upper():
     assert resolved_path == "AHUGHES"
 
 
+def test_replace():
+    template_str = "{{replace[AhUgHeS,Bobby]: name}}"
+    template_obj = parser.validate_template(
+        template_str,
+        default_fallback_token=True
+    )
+
+    resolved_path = template_obj.resolve(state_data)
+    assert resolved_path == "Bobby"
+
+
 def test_substr():
     template_str = "{{substr[0,2]:name}}"
     template_obj = parser.validate_template(
