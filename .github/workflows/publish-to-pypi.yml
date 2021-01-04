@@ -47,7 +47,7 @@ jobs:
                 twine check --strict dist/*.whl
                 echo "----------------------------"
                 echo "Uploading: $(ls dist/*.whl | tr '\r\n' ' ')"
-                echo "twine upload dist/*.whl --verbose"
+                twine upload dist/*.whl --verbose --skip-existing
               env:
                   TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
                   TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
