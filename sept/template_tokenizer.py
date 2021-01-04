@@ -2,10 +2,12 @@ import pyparsing
 
 token_group_start = pyparsing.Literal("{{")
 token_group_end = pyparsing.Literal("}}")
+escaped_character = "\\" + pyparsing.alphanums
+
 operator_name = pyparsing.Word(pyparsing.alphanums)("Operator")
 operator_args = pyparsing.delimitedList(
     pyparsing.OneOrMore(
-        pyparsing.Word(pyparsing.printables, excludeChars="[],")
+        pyparsing.Word(pyparsing.printables, escaped_character, excludeChars="[],")
     )
 )("Args")
 
@@ -20,7 +22,7 @@ operator = (
     pyparsing.Optional(operator_arg_group,) +
     pyparsing.Literal(":")
 )
-token_name = pyparsing.Word(pyparsing.alphanums, excludeChars="{}[]:")("Token")
+token_name = pyparsing.Word(pyparsing.printables, excludeChars="{}[]:")("Token")
 
 
 class Node(object):
