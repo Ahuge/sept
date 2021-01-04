@@ -4,6 +4,22 @@ The Simple Extensible Path Template (sept) is a simple to configure templating s
 Client code can define a set of Tokens that are in the dictionary of data by creating a subclass of `sept.Token`.
 Advanced users have the ability to define custom Operators that can modify the data in the dictionary.
 
+## Table Of Contents
+
+- [Examples](#examples)
+  - [Hello World](#hello-world-example)
+  - [Custom Tokens](#a-slightly-more-complex-example)
+  - [Nested Operators](#nested-operators)
+  - [Operators Arguments](#passing-arguments-to-operators)
+  - [Custom Operators](#custom-operators)
+
+- [Provided Operators](#provided-operators)
+  - [lower](#loweroperator)
+  - [upper](#upperoperator)
+  - [substr](#substroperator)
+  - [replace](#replaceoperator)
+  - [datefmt](#todo-datefmtoperator)
+
 # Design Goals
 Path Template is designed with non technical editors in mind. These people use computers but have very limited (if at all) experience with programming.
 
@@ -20,6 +36,7 @@ Speed is not a design goal currently, this is python, if you are doing large sca
 Contributions are encouraged!
 If you have a large code refactor or a significant change, starting an issue to discuss the change and plan is recommended.
 If you want to help with documentation, that is somewhere that we also need more work on as well.
+
 
 # Examples
 ## Hello World Example
@@ -182,6 +199,11 @@ It takes no arguments
 The `substr` Operator will return a subset of the text passed to it.
 It takes 1 or 2 arguments, `start` and `end` respectively.
 It also supports the "start" and "end" keywords. This may be easier than teaching a non-technical person that indexes start at 0.
+
+## ReplaceOperator
+The `replace` Operator will replace a character or set of characters from the text passed to it with another character.  
+It takes 2 arguments, `srcChars` and `dstChars` respectively.  
+It also supports the "\s" keyword. This is because our tokenizer does not store whitespace.
 
 
 ## [TODO] DateFmtOperator
