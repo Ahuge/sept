@@ -8,7 +8,7 @@ Client code can define a set of Tokens that are in the dictionary of data by cre
 Advanced users have the ability to define custom Operators that can modify the data in the dictionary.
 
 ## Table Of Contents
-- [Artist Getting Started](#artist-getting-started)
+- [Non Developer Getting Started](#non-developer-getting-started)
 - [Developer Getting Started](#developer-getting-started)
 - [Examples](#examples)
   - [Hello World](#hello-world-example)
@@ -23,69 +23,62 @@ Advanced users have the ability to define custom Operators that can modify the d
   - [substr](#substroperator)
   - [replace](#replaceoperator)
   - [datefmt](#todo-datefmtoperator)
-  
-# Artist Getting Started
-```
-- Who is this for?
-- What do I want them to know?
-  - How to edit a template
-  - How they will probably have to edit it (file on disk)
-```
-This "Getting Started" tutorial is aimed towards a non technical user, editor or lead artist.  
 
-## How you use sept
-You may have developers or technical directors at your company that will write a tool using this software library.  
-An example of a tool they write may be a "Deliver Back To Client" tool in which you are in charge of specifying a configuration file that will rename footage back to a client specified folder structure.  
+# Non Developer Getting Started
 
-In this case, you are in charge of modifying a "sept template", and the developer will have provided you with a list of "Tokens" that you can use to build that filename.  
+## How you use SEPT
+You may have developers or technical directors at your company that will write a tool using this software library.
+An example of a tool they write may be a "Deliver Back To Client" tool in which you are in charge of specifying a configuration file that will rename footage back to a client specified folder structure.
 
-Examples of "Tokens" could be "shot", "sequence", "step", "project_code" or "extension".  
-The specific "Tokens" that you have access to depends on what your developer has decided to provide in the tool.  
+In this case, you are in charge of modifying a "SEPT template", and the developer will have provided you with a list of "Tokens" that you can use to build that filename.
+
+Examples of "Tokens" could be "shot", "sequence", "step", "project_code" or "extension".
+The specific "Tokens" that you have access to depends on what your developer has decided to provide in the tool.
 
 ## Some template examples
-The following are some examples of path templates that you may write.  
-For these examples, let's assume that we are starting with a quicktime movie.  
-This movie is in the "Hero" project, the "Boss" sequence and the "001" shot.  
-The movie was created in the "comp" step.  
+The following are some examples of path templates that you may write.
+For these examples, let's assume that we are starting with a quicktime movie.
+This movie is in the "Hero" project, the "Boss" sequence and the "001" shot.
+The movie was created in the "comp" step.
 
 The example path in your facility looks like "Hero_Boss_001_comp.mov"
 ### A simple path template
-In this example, your client expects the movie file to no longer have the project code when they recieve it.  
-For example: `Boss_001_comp.mov`  
-  
-This means we need to write a custom template to remove the project code.  
-  
+In this example, your client expects the movie file to no longer have the project code when they recieve it.
+For example: `Boss_001_comp.mov`
+
+This means we need to write a custom template to remove the project code.
+
 This is an example template that would achieve our goal:
 ```yaml
 {{sequence}}_{{shot}}_{{step}}.{{extension}}
 ```
 
 #### Breaking it down
-The template above takes the "sequence" token, the "shot" token, and the "step" token and joins them with an underscore in between them. It then adds the "extension" token at the end of the filename.  
-  
-To put a "Token" expression in your template you just need to surround it with two sets of curly braces (`{` and `}`).  
+The template above takes the "sequence" token, the "shot" token, and the "step" token and joins them with an underscore in between them. It then adds the "extension" token at the end of the filename.
+
+To put a "Token" expression in your template you just need to surround it with two sets of curly braces (`{` and `}`).
 ```yaml
 {{token}}
 ```
 
 ### Introduction to Operators
-THere are times when the client requires naming that cannot be created directly by "Tokens" found in the Version in Shotgun.  
-In these cases, you may need to apply an "Operator" to the "Token" that you are using.  
+THere are times when the client requires naming that cannot be created directly by "Tokens" found in the Version in Shotgun.
+In these cases, you may need to apply an "Operator" to the "Token" that you are using.
 
-`sept` provides several common "Operators" out of the box, but your developer also has the ability to create custom ones as well.  
-If there is functionality that `sept` does not provide out of the box, you may need to submit a request to your developer to write a custom "Operator" for your use case.  
+`SEPT` provides several common "Operators" out of the box, but your developer also has the ability to create custom ones as well.
+If there is functionality that `SEPT` does not provide out of the box, you may need to submit a request to your developer to write a custom "Operator" for your use case.
 
 #### Using an Operator
-To use an "Operator" with your "Token" you need to modify how you write the "Token" expression.  
-Instead of `{{token}}`, you can instead write `{{operator:token}}`.  
+To use an "Operator" with your "Token" you need to modify how you write the "Token" expression.
+Instead of `{{token}}`, you can instead write `{{operator:token}}`.
 In the following example, we will be using the `lower` "Operator" which will convert the entire "Token" to lowercase.
 
 #### Lowercase Template Example
-In this example, our client has requested that everything in our filename is lowercase.  
-Without using "Operators", there is no easy way to achieve this, you would need to request that the show runner change the name of the sequence from "Boss" to "boss".  
-If this is at the start of the project, it may not be a huge deal, but as soon as work has started, this becomes nearly impossible to achieve without having to redo work.  
+In this example, our client has requested that everything in our filename is lowercase.
+Without using "Operators", there is no easy way to achieve this, you would need to request that the show runner change the name of the sequence from "Boss" to "boss".
+If this is at the start of the project, it may not be a huge deal, but as soon as work has started, this becomes nearly impossible to achieve without having to redo work.
 
-To create a filename that looks like `boss_001_comp.mov`, we just need to apply a `lower` "Operator" on the sequence "Token".  
+To create a filename that looks like `boss_001_comp.mov`, we just need to apply a `lower` "Operator" on the sequence "Token".
 ```yaml
 {{lower:sequence}}_{{shot}}_{{step}}.{{extension}}
 ```
@@ -115,6 +108,8 @@ To create a filename that looks like `boss_001_comp.mov`, we just need to apply 
       - path previews
 
 
+
+# Developer Getting Started
 _______
 Below is old code
 _______
