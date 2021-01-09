@@ -178,6 +178,14 @@ def test_token_length_subset():
     assert resolved_path == "ahughes/AHUGHES"
 
 
+def test_token_length_subset_leading_space():
+    template_str = r"{{lower: name}}/{{upper:name}}"
+    template_obj = parser.validate_template(template_str)
+
+    resolved_path = template_obj.resolve(state_data)
+    assert resolved_path == "ahughes/AHUGHES"
+
+
 def test_incorrect_token_name_spacing():
     template_str = r"{{lower: name   }}"
     template_obj = parser.validate_template(template_str)

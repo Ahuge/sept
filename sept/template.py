@@ -9,6 +9,9 @@ class _RawTokenExpression(object):
         self.text = text
         self.offset = offset
 
+    def __len__(self):
+        return len(self.text)
+
     def __str__(self):
         return self.text
 
@@ -88,6 +91,7 @@ class Template(object):
 
         template_expressions = cls._balance_template_str(template_str)
         sanitized_template_str = ""
+        sanitized_offset = 0
 
         last_template_expr_end = 0
         for template_expression in template_expressions:
@@ -102,10 +106,11 @@ class Template(object):
                     match=match,
                     tmanager=tmanager,
                     omanager=omanager,
-                    offset=template_expression.offset,
+                    offset=template_expression.offset + sanitized_offset,
                     default_fallback=default_fallback,
                 )
                 matches.append(resolved_token)
+            sanitized_offset += len(sanitized_expr) - len(template_expression)
 
         sanitized_template_str += template_str[last_template_expr_end:]
         T = Template()
@@ -121,8 +126,8 @@ class Template(object):
             end = resolved_token.end
             before, target, after = (
                 result_str[: start + offset],
-                result_str[start + offset : end + offset],
-                result_str[end + offset :],
+                result_str[start + offset: end + offset],
+                result_str[end + offset:],
             )
             transformed = resolved_token.execute(data)
             result_str = before + transformed + after
