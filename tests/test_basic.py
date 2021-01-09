@@ -207,7 +207,7 @@ def test_bad_parsing_error():
     try:
         parser.validate_template(template_str)
     except ParsingError as err:
-        assert err.message == 'Error: Missing closing "}}" characters for Token Expression "{{lower:name}" (0-12)'
+        assert str(err) == 'Error: Missing closing "}}" characters for Token Expression "{{lower:name}" (0-12)'
     else:
         raise AssertionError("Should have raised a ParsingError!")
 
@@ -217,7 +217,7 @@ def test_bad_parsing_error_multi_expression():
     try:
         parser.validate_template(template_str)
     except ParsingError as err:
-        assert err.message == 'Error: Missing closing "}}" characters for Token Expression "{{upper:name}" (14-26)'
+        assert str(err) == 'Error: Missing closing "}}" characters for Token Expression "{{upper:name}" (14-26)'
     else:
         raise AssertionError("Should have raised a ParsingError!")
 
@@ -227,7 +227,7 @@ def test_bad_parsing_error_multi_expression_start():
     try:
         parser.validate_template(template_str)
     except ParsingError as err:
-        assert err.message == 'Error: Missing closing "}}" characters for Token Expression "{{lower:name}{{upper:name}}" (0-26)'
+        assert str(err) == 'Error: Missing closing "}}" characters for Token Expression "{{lower:name}{{upper:name}}" (0-26)'
     else:
         raise AssertionError("Should have raised a ParsingError!")
 
