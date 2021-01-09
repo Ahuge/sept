@@ -25,17 +25,37 @@ Advanced users have the ability to define custom Operators that can modify the d
   - [datefmt](#todo-datefmtoperator)
 
 # Non Developer Getting Started
+## What is SEPT?
+Simple Extensible Path Template allows you to configure file naming to match client specifications without needing help from a developer.
+SEPT builds paths using a template made up of variables that are called "Tokens".
+
+## Background on why SEPT was created
+SEPT was created due to a problem that I have experienced several times throughout the visual effects industry.
+A visual effects studio will be working on several projects at a time, often from several different movie studios, a common theme from movies studios is to have very strict naming conventions and have them differ from most of the other projects your visual effects studio is currently working on.
+Many visual effects studios will have some way to customize the naming of files once they leave your studio. Sometimes this is a complex templating language often requiring developer assistance, other times this can be as simple as someone having to rename the files semi-manually themselves.
+In all cases, the template language is propriatry. SEPT proposes a standard baseline template language that can be used across any studio that wishes to accept it and soon, SEPT will provide modular graphical compontents that developers can use to get up and running quickly.
 
 ## How you use SEPT
-You may have developers or technical directors at your company that will write a tool using this software library.
-An example of a tool they write may be a "Deliver Back To Client" tool in which you are in charge of specifying a configuration file that will rename footage back to a client specified folder structure.
+You may have developers at your company that will write software using SEPT and those applications may use SEPT in slightly different ways than this tutorial, however things you learn here should carry over to production work.
+In this tutorial, we will be using a the resulting application that is created from the [Developer Getting Started](#developer-getting-started) tutorial.
+It is a graphical program that will take a handful of Versions from the common project tracking software [Shotgun](https://shotgunsoftware.com) and send them to a centralized folder on disk with a naming template specified by you, all ready to send back to your movie studio.
+This tool uses Shotgun to gather information about the things we are renaming, however there is no reason that SEPT requires Shotgun.
 
-In this case, you are in charge of modifying a "SEPT template", and the developer will have provided you with a list of "Tokens" that you can use to build that filename.
 
-Examples of "Tokens" could be "shot", "sequence", "step", "project_code" or "extension".
-The specific "Tokens" that you have access to depends on what your developer has decided to provide in the tool.
+## SEPT Client Delivery Tool
+![SEPT Shotgun Deliver To Client Tool](.documents/sept_shotgun_deliver_to_client_tool.png)
+
+### TODO
+  - Image of Shotgun Deliver To Client Tool
+    - Showing 3-5 hardcoded Version data blobs
+    - Pick template from disk (v1)
+    - Live Template Editor (v2)
+    - Token/Operator directory widget
+  - Add images with all template examples
+    - Something like `{{sequence}}/{{shot}}.{{extension}}` to start. All need to be folder paths now
 
 ## Some template examples
+
 The following are some examples of path templates that you may write.
 For these examples, let's assume that we are starting with a quicktime movie.
 This movie is in the "Hero" project, the "Boss" sequence and the "001" shot.
@@ -83,33 +103,39 @@ To create a filename that looks like `boss_001_comp.mov`, we just need to apply 
 {{lower:sequence}}_{{shot}}_{{step}}.{{extension}}
 ```
 
-## TODO:
+### TODO:
   - ArtistTutorial
     - Nested Operators
     - Operators with args
-  - DeveloperTutorial
-    - Faster version of the AristTutorial (basically what we already have)
-    - API overview
-      - Parser
-        - Basic usage
-        - Adding custom Tokens
-        - Adding custom Operators
-      - Token required values
-        - name
-        - getValue
-      - Operator required values
-        - name
-        - is_invalid
-        - execute
-    - Integrating in your application example
-      - validating templates
-      - Visualizing valid Tokens
-      - Visualizing documentation for Operators
-      - path previews
+
 
 
 
 # Developer Getting Started
+## TODO:
+  - Faster version of the AristTutorial (basically what we already have)
+  - Building "Shotgun Deliver To Client Tool" with hardcoded inputs
+    - (v1) Basic UI where you can pick the path to the template
+      - Preview Output Paths
+    - (v2) Live create Templates & Token/Operator directory
+
+  - Integrating in your application example
+    - validating templates
+    - Visualizing valid Tokens
+    - Visualizing documentation for Operators
+    - path previews
+  - API overview
+    - Parser
+      - Basic usage
+      - Adding custom Tokens
+      - Adding custom Operators
+    - Token required values
+      - name
+      - getValue
+    - Operator required values
+      - name
+      - is_invalid
+      - execute
 _______
 Below is old code
 _______
