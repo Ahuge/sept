@@ -5,7 +5,18 @@ from sept.operator import Operator
 
 
 class ReplaceOperator(Operator):
+    """
+    The <code>replace</code> Operator allows you to find and replace characters in your Token.
+    <br>
+    <br>Examples (name = "alex"):
+    <br>&emsp;<code>{{replace[ex,an]:name}}&nbsp;&nbsp;   -> "alan"</code>
+    <br>&emsp;<code>{{replace[kite,dog:name}} -> "alex"</code>
+    """
     name = "replace"
+    args = [
+        {"name": "Find String", "description": "The characters that you want to search for and replace", "required": True},
+        {"name": "Replace String", "description": "The characters that you want to replace the \"Find Striing\" with.", "required": True},
+    ]
     SPACE = "\\s"
     DATA_TYPES = (six.text_type, six.binary_type)
     keywords = {
