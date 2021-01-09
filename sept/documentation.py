@@ -1,12 +1,23 @@
 
 
 class DocumentationGenerator(object):
+    _divider = "<hr><br>"
+
+    _overall_token_html_template = """
+    <h1>Token Documentation</h1>
+    <br>
+    {tokens}
+    """
+    _individual_token_html_template = """
+    <h2><code>{name}</code> Token</h2>
+    {token_doc}"""
+
+    # Operator templates
     _overall_operator_html_template = """
     <h1>Operator Documentation</h1>
     <br>
     {operators}
     """
-    _operator_divider = "<hr><br>"
     _operator_args_html_template = """<h4>&emsp;<code>Operator Inputs</code></h4>
     {args}
     """
@@ -23,6 +34,21 @@ class DocumentationGenerator(object):
         super(DocumentationGenerator, self).__init__()
         self.token_manager = token_manager
         self.operator_manager = operator_manager
+
+    def generate_token_documentation(self, token_manager=None):
+        token_manager = token_manager or self.token_manager
+
+        template = self._overall_token_html_template
+        tokens_text = []
+        for token in token_manager.tokens:
+            token_text = self._individual_token_html_template.format(
+                name=token.name,
+                token_doc=token.__doc__,
+            )
+            tokens_text.append(token_text)
+        return template.format(
+            tokens=self._divider.join(tokens_text)
+        )
 
     def generate_operator_documentation(self, operator_manager=None):
         operator_manager = operator_manager or self.operator_manager
@@ -54,5 +80,5 @@ class DocumentationGenerator(object):
             )
             operators_text.append(operator_text)
         return template.format(
-            operators=self._operator_divider.join(operators_text)
+            operators=self._divider.join(operators_text)
         )
