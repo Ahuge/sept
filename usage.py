@@ -1,3 +1,6 @@
+import os
+import webbrowser
+
 import six
 
 from sept import PathTemplateParser, Token, Operator
@@ -5,6 +8,9 @@ from sept import PathTemplateParser, Token, Operator
 
 # Custom Tokens
 class FirstNameToken(Token):
+    """
+    The <code>firstname</code> Token will return the "first_name" value from the user data dictionary.
+    """
     name = "firstname"
 
     def getValue(self, data):
@@ -12,6 +18,9 @@ class FirstNameToken(Token):
 
 
 class LastNameToken(Token):
+    """
+    The <code>lastname</code> Token will return the "last_name" value from the user data dictionary.
+    """
     name = "lastname"
 
     def getValue(self, data):
@@ -20,6 +29,12 @@ class LastNameToken(Token):
 
 # Custom Operator
 class FirstCharacterOperator(Operator):
+    """
+    The <code>firstletter</code> Operator allows you to return the first letter of the Token.
+    <br>
+    <br>Examples (name = "alex"):
+    <br>&emsp;<code>{{firstletter:name}}&nbsp;&nbsp;   -> "a"</code>
+    """
     name = "firstletter"
     DATA_TYPES = (six.text_type, six.binary_type)
 
@@ -73,3 +88,15 @@ resolved_path = template_obj.resolve(state_data)
 
 print(resolved_path)
 # /home/ahughes
+
+
+# Generate and launch documentation
+operator_docs = parser.operator_documentation()
+token_docs = parser.token_documentation()
+
+operator_docs += "<br><br><hr><br><br>" + token_docs
+documentation_path = os.path.join(os.path.dirname(__file__), "documentation.html")
+with open(documentation_path, "w") as fh:
+    fh.write(operator_docs)
+
+webbrowser.open(documentation_path)
