@@ -16,39 +16,63 @@ Parser
 
 .. automodule:: sept.parser
     :members:
+
+.. autoclass:: sept.parser.PathTemplateParser
+    :members:
 		
 Token
 --------------------
 
 .. automodule:: sept.token
     :members:
-		
-.. automodule:: sept.builtin.tokens.default
-    :members:
 
+.. autoclass:: sept.token.Token
+    :members:
+		
 Operator
 --------------------
 .. automodule:: sept.operator
     :members:
 
-.. automodule:: sept.builtin.lower
+.. autoclass:: sept.operator.Operator
     :members:
 
-.. automodule:: sept.builtin.null
+.. automodule:: sept.builtin.operators.lower
     :members:
 
-.. automodule:: sept.builtin.replace
+.. autoclass:: sept.builtin.operators.lower.LowerOperator
     :members:
 
-.. automodule:: sept.builtin.substr
+.. automodule:: sept.builtin.operators.null
     :members:
 
-.. automodule:: sept.builtin.upper
+.. autoclass:: sept.builtin.operators.null.NullOperator
+    :members:
+
+.. automodule:: sept.builtin.operators.replace
+    :members:
+
+.. autoclass:: sept.builtin.operators.replace.ReplaceOperator
+    :members:
+
+.. automodule:: sept.builtin.operators.substr
+    :members:
+
+.. autoclass:: sept.builtin.operators.substr.SubStringOperator
+    :members:
+
+.. automodule:: sept.builtin.operators.upper
+    :members:
+
+.. autoclass:: sept.builtin.operators.upper.UpperOperator
     :members:
 
 
-Token
+Template
 --------------------
+.. automodule:: sept.template
+    :members:
+
 .. autoclass:: sept.template.Template
     :members:
 
