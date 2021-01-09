@@ -15,6 +15,7 @@ class ParenthesisBalancer(object):
 
     Successfully matched pairs get returned as a list of [start_index, end_index] values which can be used to generate substrings of only the "Token Expression" chunks.
     """
+
     def __init__(self, template_str):
         super(ParenthesisBalancer, self).__init__()
         self.template_str = template_str
