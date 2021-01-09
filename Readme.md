@@ -1,5 +1,6 @@
 # Simple Extensible Path Template
-[![SEPT Version](https://img.shields.io/pypi/v/sept.svg)](https://pypi.org/project/sept) [![SEPT Downloads](https://img.shields.io/pypi/dm/sept.svg)](https://pypi.org/project/sept) [![SEPT Supported Python Versions](https://img.shields.io/pypi/pyversions/sept.svg)](https://pypi.org/project/sept)
+[![SEPT Version](https://img.shields.io/pypi/v/sept.svg)](https://pypi.org/project/sept) [![SEPT Downloads](https://img.shields.io/pypi/dm/sept.svg)](https://pypi.org/project/sept) [![SEPT Supported Python Versions](https://img.shields.io/pypi/pyversions/sept.svg)](https://pypi.org/project/sept) [![Documentation Status](https://readthedocs.org/projects/sept/badge/?version=latest)](https://sept.readthedocs.io/en/latest/?badge=latest)
+
 
 The Simple Extensible Path Template (sept) is a simple to configure templating system designed at relatively simple path translation or path generation from a dictionary of data.
 
