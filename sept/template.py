@@ -1,4 +1,16 @@
 from sept.template_tokenizer import Tokenizer
+from sept.balancer import ParenthesisBalancer
+from sept.errors import ParsingError, MultipleBalancingError
+
+
+class _RawTokenExpression(object):
+    def __init__(self, text, offset):
+        super(_RawTokenExpression, self).__init__()
+        self.text = text
+        self.offset = offset
+
+    def __str__(self):
+        return self.text
 
 
 class Template(object):
@@ -8,7 +20,7 @@ class Template(object):
         self._resolved_tokens = []
 
     @classmethod
-    def _gather_match(cls, match, tmanager, omanager, default_fallback=False):
+    def _gather_match(cls, match, tmanager, omanager, offset=0, default_fallback=False):
         _Operator = omanager.getOperator("NULL")
 
         if match.Operator:
@@ -26,8 +38,8 @@ class Template(object):
             resolved_token = tmanager.bind_token(
                 token=resolved_token,
                 operator=_Operator,
-                tok_start=match.start,
-                tok_end=match.end,
+                tok_start=match.start + offset,
+                tok_end=match.end + offset,
                 tok_original_string=match.original_str,
                 default_fallback=default_fallback,
             )
@@ -35,8 +47,8 @@ class Template(object):
             resolved_token = tmanager.bind_token(
                 token=match.Token,
                 operator=_Operator,
-                tok_start=match.start,
-                tok_end=match.end,
+                tok_start=match.start + offset,
+                tok_end=match.end + offset,
                 tok_original_string=match.original_str,
                 default_fallback=default_fallback,
             )
@@ -47,6 +59,24 @@ class Template(object):
         return resolved_token
 
     @classmethod
+    def _balance_template_str(cls, template_str):
+        expression_locations, errors = ParenthesisBalancer.parse_string(template_str)
+        expressions = []
+        for start_index, end_index in expression_locations:
+            try:
+                _expr = _RawTokenExpression(
+                    text=template_str[start_index:end_index + 1],
+                    offset=start_index
+                )
+                expressions.append(_expr)
+            except IndexError:
+                # Unclear how we got here, probably a bug in balancer
+                raise ParsingError("Error extracting Token Expressions")
+        if errors:
+            raise MultipleBalancingError(errors)
+        return expressions
+
+    @classmethod
     def sanitize_template_str(cls, template_str):
         return template_str.replace(" ", "")
 
@@ -55,17 +85,22 @@ class Template(object):
         cls, template_str, tmanager, omanager, default_fallback=False
     ):
         matches = []
-        template_str = cls.sanitize_template_str(template_str)
 
-        for results, tok_start, tok_end in Tokenizer.scanString(template_str):
-            match = results.match
-            resolved_token = cls._gather_match(
-                match=match,
-                tmanager=tmanager,
-                omanager=omanager,
-                default_fallback=default_fallback,
-            )
-            matches.append(resolved_token)
+        template_expressions = cls._balance_template_str(template_str)
+
+        for template_expression in template_expressions:
+            sanitized_expr = cls.sanitize_template_str(str(template_expression))
+            for results, tok_start, tok_end in Tokenizer.scanString(sanitized_expr):
+                match = results.match
+                resolved_token = cls._gather_match(
+                    match=match,
+                    tmanager=tmanager,
+                    omanager=omanager,
+                    offset=template_expression.offset,
+                    default_fallback=default_fallback,
+                )
+                matches.append(resolved_token)
+        #
         T = Template()
         T._template_str = template_str
         T._resolved_tokens = matches
