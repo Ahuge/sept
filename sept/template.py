@@ -87,9 +87,15 @@ class Template(object):
         matches = []
 
         template_expressions = cls._balance_template_str(template_str)
+        sanitized_template_str = ""
 
+        last_template_expr_end = 0
         for template_expression in template_expressions:
+            sanitized_template_str += template_str[last_template_expr_end:template_expression.offset]
+            last_template_expr_end = template_expression.offset + len(template_expression.text)
+
             sanitized_expr = cls.sanitize_template_str(str(template_expression))
+            sanitized_template_str += sanitized_expr
             for results, tok_start, tok_end in Tokenizer.scanString(sanitized_expr):
                 match = results.match
                 resolved_token = cls._gather_match(
@@ -100,9 +106,10 @@ class Template(object):
                     default_fallback=default_fallback,
                 )
                 matches.append(resolved_token)
-        #
+
+        sanitized_template_str += template_str[last_template_expr_end:]
         T = Template()
-        T._template_str = template_str
+        T._template_str = sanitized_template_str
         T._resolved_tokens = matches
         return T
 

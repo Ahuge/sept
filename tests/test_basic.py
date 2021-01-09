@@ -186,6 +186,14 @@ def test_incorrect_token_name_spacing():
     assert resolved_path == "ahughes"
 
 
+def test_keeps_external_spacing():
+    template_str = r"My username is {{lower: name   }}"
+    template_obj = parser.validate_template(template_str)
+
+    resolved_path = template_obj.resolve(state_data)
+    assert resolved_path == "My username is ahughes"
+
+
 def test_bad_parsing_error():
     template_str = r"{{lower:name}"
     try:
