@@ -5,14 +5,14 @@ from sept import PathTemplateParser, Token, Operator
 
 # Custom Tokens
 class FirstNameToken(Token):
-    token_name = "firstname"
+    name = "firstname"
 
     def getValue(self, data):
         return data.get("user", {}).get("first_name")
 
 
 class LastNameToken(Token):
-    token_name = "lastname"
+    name = "lastname"
 
     def getValue(self, data):
         return data.get("user", {}).get("last_name")
@@ -40,15 +40,15 @@ class FirstCharacterOperator(Operator):
 
 def get_additional_tokens():
     custom_tokens = [
-        FirstNameToken(),
-        LastNameToken(),
+        FirstNameToken,
+        LastNameToken,
     ]
     return custom_tokens
 
 
 def get_additional_operators():
     return [
-        FirstCharacterOperator(),
+        FirstCharacterOperator,
     ]
 
 
@@ -68,13 +68,8 @@ parser = PathTemplateParser(
     additional_operators=additional_operators,
 )
 
-resolved_template = parser.parse(
-    template=custom_template,
-    data=state_data,
-)
+template_obj = parser.validate_template(custom_template)
+resolved_path = template_obj.resolve(state_data)
 
-print(resolved_template)
+print(resolved_path)
 # /home/ahughes
-
-
-template_str = "{{upper:{{lower:sequence}}}}/{{subStr[0,3]:shot}}"
