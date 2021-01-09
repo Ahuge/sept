@@ -1,5 +1,26 @@
 class Operator(object):
+    """
+    The docstring of your Operator is used as the documentation for your
+        Operator.
+    You should include any freeform text that you would like as well as some
+        examples of how your Operator works.
+    This docstring should be treated as html code.
+
+    If you wanted to bold your text, you could just do <b>this!</b>
+    """
     name = NotImplementedError
+    args = [
+        # The args class object is used as an argspec for your Operator
+        #   `args` should be a list of dict[name, description, required].
+        # eg:
+        #   args = [
+        #       {"name": "myarg1", "description": "This arg gets used for something", "required": True},
+        #       {"name": "myarg2", "description": "This is an extra arg, it's optional", "required": False},
+        #   ]
+    ]
+
+    # Internal...Ignore this
+    _private = False
 
     def __init__(self, args=None):
         super(Operator, self).__init__()
