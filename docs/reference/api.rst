@@ -83,7 +83,11 @@ Errors
     :members:
 	       
 
+Other
 ----------------
+.. automodule:: sept.balancer
+    :members:
+
 .. autoclass:: sept.balancer.ParenthesisBalancer
     :members:
 
