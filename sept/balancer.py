@@ -1,4 +1,7 @@
-from sept.errors import ClosingBalancingParenthesisError, OpeningBalancingParenthesisError
+from sept.errors import (
+    ClosingBalancingParenthesisError,
+    OpeningBalancingParenthesisError,
+)
 
 START_TOK = "{"
 CLOSE_TOK = "}"
@@ -39,12 +42,14 @@ class ParenthesisBalancer(object):
                     self.close_group(curr_index=index)
         if self._currently_open_locations:
             for open_location in self._currently_open_locations:
-                self._errors.append(ClosingBalancingParenthesisError(
-                    start_location=open_location,
-                    end_location=len(self.template_str) - 1,
-                    missing_token=CLOSE_TOK + CLOSE_TOK,
-                    substr=self.template_str[open_location:],
-                ))
+                self._errors.append(
+                    ClosingBalancingParenthesisError(
+                        start_location=open_location,
+                        end_location=len(self.template_str) - 1,
+                        missing_token=CLOSE_TOK + CLOSE_TOK,
+                        substr=self.template_str[open_location:],
+                    )
+                )
 
         return self._root_locations, self._errors
 
@@ -76,12 +81,14 @@ class ParenthesisBalancer(object):
             if self._recently_closed_locations:
                 last_closed = self._recently_closed_locations[-1]
 
-            self._errors.append(OpeningBalancingParenthesisError(
-                start_location=last_closed + 1,
-                end_location=curr_index,
-                missing_token=START_TOK + START_TOK,
-                substr=self.template_str,
-            ))
+            self._errors.append(
+                OpeningBalancingParenthesisError(
+                    start_location=last_closed + 1,
+                    end_location=curr_index,
+                    missing_token=START_TOK + START_TOK,
+                    substr=self.template_str,
+                )
+            )
             return
         self._open_count -= 1
         last_opener = self._currently_open_locations.pop()

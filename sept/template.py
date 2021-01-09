@@ -68,8 +68,7 @@ class Template(object):
         for start_index, end_index in expression_locations:
             try:
                 _expr = _RawTokenExpression(
-                    text=template_str[start_index:end_index + 1],
-                    offset=start_index
+                    text=template_str[start_index : end_index + 1], offset=start_index
                 )
                 expressions.append(_expr)
             except IndexError:
@@ -95,8 +94,12 @@ class Template(object):
 
         last_template_expr_end = 0
         for template_expression in template_expressions:
-            sanitized_template_str += template_str[last_template_expr_end:template_expression.offset]
-            last_template_expr_end = template_expression.offset + len(template_expression.text)
+            sanitized_template_str += template_str[
+                last_template_expr_end : template_expression.offset
+            ]
+            last_template_expr_end = template_expression.offset + len(
+                template_expression.text
+            )
 
             sanitized_expr = cls.sanitize_template_str(str(template_expression))
             sanitized_template_str += sanitized_expr
@@ -126,8 +129,8 @@ class Template(object):
             end = resolved_token.end
             before, target, after = (
                 result_str[: start + offset],
-                result_str[start + offset: end + offset],
-                result_str[end + offset:],
+                result_str[start + offset : end + offset],
+                result_str[end + offset :],
             )
             transformed = resolved_token.execute(data)
             result_str = before + transformed + after

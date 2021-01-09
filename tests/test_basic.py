@@ -112,9 +112,7 @@ def test_add_custom_operator():
 
     template_str = r"{{soup:name}}"
     custom_parser = PathTemplateParser(additional_operators=[SoupOperator])
-    template_obj = custom_parser.validate_template(
-        template_str
-    )
+    template_obj = custom_parser.validate_template(template_str)
 
     resolved_path = template_obj.resolve(state_data)
     assert resolved_path == "tomato soup"
@@ -133,9 +131,7 @@ def test_add_custom_token():
 
     template_str = r"{{lower:githubUsername}}"
     custom_parser = PathTemplateParser(additional_tokens=[GithubUsernameToken])
-    template_obj = custom_parser.validate_template(
-        template_str
-    )
+    template_obj = custom_parser.validate_template(template_str)
 
     resolved_path = template_obj.resolve(state_data)
     assert resolved_path == "ahuge"
@@ -154,9 +150,7 @@ def test_add_custom_token_with_casing():
 
     template_str = r"{{lower:githubUsername}}"
     custom_parser = PathTemplateParser(additional_tokens=[GithubUsernameToken])
-    template_obj = custom_parser.validate_template(
-        template_str
-    )
+    template_obj = custom_parser.validate_template(template_str)
 
     resolved_path = template_obj.resolve(state_data)
     assert resolved_path == "ahuge"
@@ -207,7 +201,10 @@ def test_bad_parsing_error():
     try:
         parser.validate_template(template_str)
     except ParsingError as err:
-        assert str(err) == 'Error: Missing closing "}}" characters for Token Expression "{{lower:name}" (0-12)'
+        assert (
+            str(err)
+            == 'Error: Missing closing "}}" characters for Token Expression "{{lower:name}" (0-12)'
+        )
     else:
         raise AssertionError("Should have raised a ParsingError!")
 
@@ -217,7 +214,10 @@ def test_bad_parsing_error_multi_expression():
     try:
         parser.validate_template(template_str)
     except ParsingError as err:
-        assert str(err) == 'Error: Missing closing "}}" characters for Token Expression "{{upper:name}" (14-26)'
+        assert (
+            str(err)
+            == 'Error: Missing closing "}}" characters for Token Expression "{{upper:name}" (14-26)'
+        )
     else:
         raise AssertionError("Should have raised a ParsingError!")
 
@@ -227,48 +227,43 @@ def test_bad_parsing_error_multi_expression_start():
     try:
         parser.validate_template(template_str)
     except ParsingError as err:
-        assert str(err) == 'Error: Missing closing "}}" characters for Token Expression "{{lower:name}{{upper:name}}" (0-26)'
+        assert (
+            str(err)
+            == 'Error: Missing closing "}}" characters for Token Expression "{{lower:name}{{upper:name}}" (0-26)'
+        )
     else:
         raise AssertionError("Should have raised a ParsingError!")
 
 
 def test_balencer_basic():
     template_str = r"{{lower:name}}"
-    token_expresion_locations, errors = ParenthesisBalancer.parse_string(
-        template_str
-    )
+    token_expresion_locations, errors = ParenthesisBalancer.parse_string(template_str)
     assert errors == []
     assert len(token_expresion_locations) == 1
-    assert token_expresion_locations[0] == (0, len(template_str)-1)
+    assert token_expresion_locations[0] == (0, len(template_str) - 1)
 
 
 def test_balencer_double():
     template_str = r"{{lower:name}}{{lower:name}}"
-    token_expresion_locations, errors = ParenthesisBalancer.parse_string(
-        template_str
-    )
+    token_expresion_locations, errors = ParenthesisBalancer.parse_string(template_str)
     assert errors == []
     assert len(token_expresion_locations) == 2
     assert token_expresion_locations[0] == (0, 13)
-    assert token_expresion_locations[1] == (14, len(template_str)-1)
+    assert token_expresion_locations[1] == (14, len(template_str) - 1)
 
 
 def test_balencer_double_leading():
     template_str = r"This is a {{lower:name}}{{lower:name}}"
-    token_expresion_locations, errors = ParenthesisBalancer.parse_string(
-        template_str
-    )
+    token_expresion_locations, errors = ParenthesisBalancer.parse_string(template_str)
     assert errors == []
     assert len(token_expresion_locations) == 2
     assert token_expresion_locations[0] == (10, 23)
-    assert token_expresion_locations[1] == (24, len(template_str)-1)
+    assert token_expresion_locations[1] == (24, len(template_str) - 1)
 
 
 def test_balencer_basic_missing_opener():
     template_str = r"{lower:name}}"
-    token_expresion_locations, errors = ParenthesisBalancer.parse_string(
-        template_str
-    )
+    token_expresion_locations, errors = ParenthesisBalancer.parse_string(template_str)
     assert len(errors) == 1
     assert isinstance(errors[0], OpeningBalancingParenthesisError)
     assert len(token_expresion_locations) == 0
@@ -276,9 +271,7 @@ def test_balencer_basic_missing_opener():
 
 def test_balencer_double_missing_closer():
     template_str = r"{{lower:name}}{lower:name}}"
-    token_expresion_locations, errors = ParenthesisBalancer.parse_string(
-        template_str
-    )
+    token_expresion_locations, errors = ParenthesisBalancer.parse_string(template_str)
     assert len(errors) == 1
     assert isinstance(errors[0], OpeningBalancingParenthesisError)
     assert len(token_expresion_locations) == 1
@@ -287,9 +280,7 @@ def test_balencer_double_missing_closer():
 
 def test_balencer_basic_missing_closer():
     template_str = r"{{lower:name}"
-    token_expresion_locations, errors = ParenthesisBalancer.parse_string(
-        template_str
-    )
+    token_expresion_locations, errors = ParenthesisBalancer.parse_string(template_str)
     assert len(errors) == 1
     assert isinstance(errors[0], ClosingBalancingParenthesisError)
     assert len(token_expresion_locations) == 0
@@ -297,9 +288,7 @@ def test_balencer_basic_missing_closer():
 
 def test_balencer_double_missing_closer():
     template_str = r"{{lower:name}}{{lower:name}"
-    token_expresion_locations, errors = ParenthesisBalancer.parse_string(
-        template_str
-    )
+    token_expresion_locations, errors = ParenthesisBalancer.parse_string(template_str)
     assert len(errors) == 1
     assert isinstance(errors[0], ClosingBalancingParenthesisError)
     assert len(token_expresion_locations) == 1
@@ -308,9 +297,7 @@ def test_balencer_double_missing_closer():
 
 def test_balencer_double_missing_closer_and_opener():
     template_str = r"{lower:name}}{{lower:name}"
-    token_expresion_locations, errors = ParenthesisBalancer.parse_string(
-        template_str
-    )
+    token_expresion_locations, errors = ParenthesisBalancer.parse_string(template_str)
     assert len(errors) == 2
     assert isinstance(errors[0], OpeningBalancingParenthesisError)
     assert isinstance(errors[1], ClosingBalancingParenthesisError)

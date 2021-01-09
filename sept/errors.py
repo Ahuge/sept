@@ -24,7 +24,7 @@ class MultipleParsingError(ParsingError):
 
 
 class InvalidCharacterParsingError(ParsingError):
-    MSG_TEMPLATE = "Error parsing expression: \"{expr}\". Expected \"{expect}\", found \"{found}\" at col:{s_col}-{e_col}"
+    MSG_TEMPLATE = 'Error parsing expression: "{expr}". Expected "{expect}", found "{found}" at col:{s_col}-{e_col}'
 
     def __init__(self, expression, expected_char, actual_char, start_col, end_col):
         self.expression = expression
@@ -34,7 +34,7 @@ class InvalidCharacterParsingError(ParsingError):
         self.end_col = end_col
 
         msg = self.MSG_TEMPLATE.format(
-            expr=self.expression[self.start_col:self.end_col],
+            expr=self.expression[self.start_col : self.end_col],
             expect=self.expected_char,
             found=self.actual_char,
             s_col=self.start_col,
@@ -48,12 +48,14 @@ class InvalidCharacterParsingError(ParsingError):
 
 class BalancingParenthesisError(ParsingError):
     def __init__(self, missing_token, substr, start_location, end_location):
-        message = "Error: Missing closing \"{}\" characters for Token " \
-                  "Expression \"{}\" ({}-{})".format(
-            missing_token,
-            substr,
-            start_location,
-            end_location,
+        message = (
+            'Error: Missing closing "{}" characters for Token '
+            'Expression "{}" ({}-{})'.format(
+                missing_token,
+                substr,
+                start_location,
+                end_location,
+            )
         )
 
         super(BalancingParenthesisError, self).__init__(message)
