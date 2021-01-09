@@ -14,16 +14,16 @@ jobs:
             - name: Setup python 2
               uses: actions/setup-python@v2
               with:
-                python-version: 2.7
-                architecture: x64
+                  python-version: 2.7
+                  architecture: x64
             - name: Pip2 install
               run: pip2 install setuptools wheel twine
 
             - name: Setup python 3
               uses: actions/setup-python@v2
               with:
-                python-version: 3.x
-                architecture: x64
+                  python-version: 3.x
+                  architecture: x64
             - name: Pip3 install
               run: pip3 install setuptools wheel twine
 
@@ -53,15 +53,15 @@ jobs:
                   TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
                   TWINE_NON_INTERACTIVE: 1
 
-          - name: Generate Upload URL
-            id: gen-upload-url
-            run: |
-              sudo apt-get install jq;
-              RELEASE_ID=$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH);
-              echo ::set-output name=upload-url::https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}/assets
+            - name: Generate Upload URL
+              id: gen-upload-url
+              run: |
+                sudo apt-get install jq;
+                RELEASE_ID=$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH);
+                echo ::set-output name=upload-url::https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}/assets
             - name: Upload Python 2 Wheel To Github
               uses: actions/upload-release-asset@v1.0.1
-              env: 
+              env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   upload_url: ${{ steps.gen-upload-url.outputs.upload-url }}?name=${{ steps.build-wheel.outputs.asset-name-py2 }}
@@ -70,7 +70,7 @@ jobs:
                   asset_content_type: application/x-wheel+zip
             - name: Upload Python 3 Wheel To Github
               uses: actions/upload-release-asset@v1.0.1
-              env: 
+              env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   upload_url: ${{ steps.gen-upload-url.outputs.upload-url }}?name=${{ steps.build-wheel.outputs.asset-name-py3 }}
