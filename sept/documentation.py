@@ -2,10 +2,10 @@
 
 class DocumentationGenerator(object):
     _divider = "<hr><br>"
+    _token_divider = "<hr>"
 
     _overall_token_html_template = """
     <h1>Token Documentation</h1>
-    <br>
     {tokens}
     """
     _individual_token_html_template = """
@@ -47,7 +47,7 @@ class DocumentationGenerator(object):
             )
             tokens_text.append(token_text)
         return template.format(
-            tokens=self._divider.join(tokens_text)
+            tokens=self._token_divider.join(tokens_text)
         )
 
     def generate_operator_documentation(self, operator_manager=None):
