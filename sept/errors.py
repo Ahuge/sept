@@ -1,5 +1,7 @@
 class SeptError(RuntimeError):
-    pass
+    def __init__(self, location, message):
+        super(SeptError, self).__init__(message)
+        self.location = location
 
 
 class TokenNotFoundError(SeptError):
@@ -11,14 +13,18 @@ class OperatorError(SeptError):
 
 
 class ParsingError(SeptError):
-    def __init__(self, message):
-        super(ParsingError, self).__init__(message)
+    def __init__(self, location, message):
+        super(ParsingError, self).__init__(location, message)
 
 
 class MultipleParsingError(ParsingError):
     def __init__(self, errors):
+        location = -1
+        if errors:
+            location = errors[0].location
         super(MultipleParsingError, self).__init__(
-            "\n".join(str(error) for error in errors)
+            location=location,
+            message="\n".join(str(error) for error in errors)
         )
         self.errors = errors
 
@@ -42,6 +48,7 @@ class InvalidCharacterParsingError(ParsingError):
         )
 
         super(InvalidCharacterParsingError, self).__init__(
+            location=self.start_col,
             message=msg,
         )
 
@@ -58,8 +65,10 @@ class BalancingParenthesisError(ParsingError):
             )
         )
 
-        super(BalancingParenthesisError, self).__init__(message)
-        self.location = start_location
+        super(BalancingParenthesisError, self).__init__(
+            location=start_location,
+            message=message
+        )
 
 
 class OpeningBalancingParenthesisError(BalancingParenthesisError):
@@ -72,8 +81,12 @@ class ClosingBalancingParenthesisError(BalancingParenthesisError):
 
 class MultipleBalancingError(ParsingError):
     def __init__(self, errors):
+        location = -1
+        if errors:
+            location = errors[0].location
         super(MultipleBalancingError, self).__init__(
-            "\n".join(str(error) for error in errors)
+            location=location,
+            message="\n".join(str(error) for error in errors)
         )
         self.errors = errors
 
