@@ -46,8 +46,7 @@ class ResolvedToken(object):
                     "maybe the error originated there?"
                 )
                 raise InvalidOperatorInputDataError(
-                    location=self.start,
-                    message=error.format(
+                    error.format(
                         opname=operator.name,
                         errmsg=is_invalid_data,
                         prevop=previous_operator,
