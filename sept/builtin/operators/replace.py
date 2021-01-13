@@ -15,7 +15,7 @@ class ReplaceOperator(Operator):
     name = "replace"
     args = [
         {"name": "Find String", "description": "The characters that you want to search for and replace", "required": True},
-        {"name": "Replace String", "description": "The characters that you want to replace the \"Find Striing\" with.", "required": True},
+        {"name": "Replace String", "description": "The characters that you want to replace the \"Find String\" with.", "required": True},
     ]
     SPACE = "\\s"
     DATA_TYPES = (six.text_type, six.binary_type)
