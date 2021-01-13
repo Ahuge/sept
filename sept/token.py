@@ -31,6 +31,8 @@ class ResolvedToken(object):
 
     def execute(self, version_data):
         source_data = self.raw_token.getValue(version_data)
+        if source_data is None:
+            return self.original_string
         transformed_data = source_data
 
         previous_operator = None
@@ -44,7 +46,8 @@ class ResolvedToken(object):
                     "maybe the error originated there?"
                 )
                 raise InvalidOperatorInputDataError(
-                    error.format(
+                    location=self.start,
+                    message=error.format(
                         opname=operator.name,
                         errmsg=is_invalid_data,
                         prevop=previous_operator,
