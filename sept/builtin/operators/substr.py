@@ -36,6 +36,39 @@ class SubStringOperator(Operator):
                 "or two arguments that are either a number or either "
                 '"start" or "end" text values.'.format(name=self.name)
             )
+        if len(args) == 1:
+            start = args
+            end = self.END_KEY
+        else:
+            start, end = args
+
+        if start not in self.keywords:
+            try:
+                int(start)
+            except ValueError:
+                return (
+                    "Invalid input value passed to {name}. "
+                    "We expect the first argument to be a number or either "
+                    "\"start\" or \"end\" values. "
+                    "{value} was passed instead.".format(
+                        name=self.name,
+                        value=start
+                    )
+                )
+
+        if end not in self.keywords:
+            try:
+                int(end)
+            except ValueError:
+                return (
+                    "Invalid input value passed to {name}. "
+                    "We expect the second argument to be a number or either "
+                    "\"start\" or \"end\" values. "
+                    "{value} was passed instead.".format(
+                        name=self.name,
+                        value=end
+                    )
+                )
         if isinstance(token_value, self.DATA_TYPES):
             # Is valid
             return None
