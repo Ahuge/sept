@@ -36,11 +36,10 @@ class OperatorManager(object):
                 )
             self._cache[custom_operator.name] = custom_operator()
 
-    def getOperator(self, operator_name, args=None, token_offset=-1):
+    def getOperator(self, operator_name, args=None):
         if operator_name in self._cache:
             operator_klass = self._cache[operator_name]
             return operator_klass.create(args)
         raise OperatorNotFoundError(
-            location=token_offset,
-            message="Could not find an Operator with the name {}".format(operator_name)
+            "Could not find an Operator with the name {}".format(operator_name)
         )
