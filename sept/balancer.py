@@ -105,7 +105,7 @@ class ParenthesisBalancer(object):
                     start_location=last_open,
                     end_location=end_index,
                     missing_token=START_TOK + START_TOK,
-                    substr=self.template_str[last_open:end_index + 1],
+                    substr=self.template_str[last_open : end_index + 1],
                 )
             )
             return

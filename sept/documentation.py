@@ -1,5 +1,3 @@
-
-
 class DocumentationGenerator(object):
     _divider = "<hr><br>"
     _token_divider = "<hr>"
@@ -46,9 +44,7 @@ class DocumentationGenerator(object):
                 token_doc=token.__doc__,
             )
             tokens_text.append(token_text)
-        return template.format(
-            tokens=self._token_divider.join(tokens_text)
-        )
+        return template.format(tokens=self._token_divider.join(tokens_text))
 
     def generate_operator_documentation(self, operator_manager=None):
         operator_manager = operator_manager or self.operator_manager
@@ -79,6 +75,4 @@ class DocumentationGenerator(object):
                 operator_doc=operator.__doc__,
             )
             operators_text.append(operator_text)
-        return template.format(
-            operators=self._divider.join(operators_text)
-        )
+        return template.format(operators=self._divider.join(operators_text))

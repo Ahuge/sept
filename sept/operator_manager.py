@@ -15,11 +15,8 @@ class OperatorManager(object):
     def operators(self):
         # Don't include the NULL operator
         return sorted(
-            filter(
-                lambda op: op._private is False,
-                self._cache.values()
-            ),
-            key=lambda op: op.name
+            filter(lambda op: op._private is False, self._cache.values()),
+            key=lambda op: op.name,
         )
 
     def add_custom_operators(self, custom_operators, dont_overwrite=True):

@@ -10,6 +10,7 @@ class UpperOperator(Operator):
     <br>&emsp;<code>"alex" &nbsp;&nbsp;-> "ALEX"</code>
     <br>&emsp;<code>"alex11" -> "ALEX11"</code>
     """
+
     name = "upper"
 
     def is_invalid(self, token_value):

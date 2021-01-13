@@ -1,6 +1,13 @@
 from sept.template_tokenizer import Tokenizer
 from sept.balancer import ParenthesisBalancer
-from sept.errors import SeptError, ParsingError, MultipleBalancingError, OperatorNotFoundError, TokenNotFoundError, InvalidOperatorInputDataError
+from sept.errors import (
+    SeptError,
+    ParsingError,
+    MultipleBalancingError,
+    OperatorNotFoundError,
+    TokenNotFoundError,
+    InvalidOperatorInputDataError,
+)
 
 
 class _RawTokenExpression(object):
@@ -156,11 +163,7 @@ class Template(object):
             try:
                 transformed = resolved_token.execute(data)
             except InvalidOperatorInputDataError as err:
-                raise ParsingError(
-                    location=start,
-                    length=end - start,
-                    message=str(err)
-                )
+                raise ParsingError(location=start, length=end - start, message=str(err))
             result_str = before + transformed + after
             offset += len(transformed) - len(target)
 

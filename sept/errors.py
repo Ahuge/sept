@@ -19,7 +19,9 @@ class LocationAwareSeptError(SeptError):
 
 class ParsingError(LocationAwareSeptError):
     def __init__(self, location, message, length=0):
-        super(ParsingError, self).__init__(location=location, message=message, length=length)
+        super(ParsingError, self).__init__(
+            location=location, message=message, length=length
+        )
 
 
 class MultipleParsingError(ParsingError):
@@ -31,7 +33,7 @@ class MultipleParsingError(ParsingError):
         super(MultipleParsingError, self).__init__(
             location=location,
             length=length,
-            message="\n".join(str(error) for error in errors)
+            message="\n".join(str(error) for error in errors),
         )
         self.errors = errors
 
@@ -76,7 +78,7 @@ class BalancingParenthesisError(ParsingError):
         super(BalancingParenthesisError, self).__init__(
             location=start_location,
             length=end_location - start_location + 1,
-            message=message
+            message=message,
         )
 
 
@@ -97,7 +99,7 @@ class MultipleBalancingError(ParsingError):
         super(MultipleBalancingError, self).__init__(
             location=location,
             length=length,
-            message="\n".join(str(error) for error in errors)
+            message="\n".join(str(error) for error in errors),
         )
         self.errors = errors
 

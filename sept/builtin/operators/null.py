@@ -10,6 +10,7 @@ class NullOperator(Operator):
     <br>&emsp;<code>"alex"  &nbsp; &nbsp;-> "alex"</code>
     <br>&emsp;<code>"ALEX11" -> "ALEX11"</code>
     """
+
     name = "NULL"
     _private = True
 

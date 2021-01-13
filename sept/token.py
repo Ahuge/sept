@@ -5,6 +5,7 @@ class Token(object):
     """
     The docstring of your Token will be used as the documentation help message.
     """
+
     name = NotImplementedError
 
     def getValue(self, data):

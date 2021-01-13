@@ -8,6 +8,7 @@ class Operator(object):
 
     If you wanted to bold your text, you could just do <b>this!</b>
     """
+
     name = NotImplementedError
     args = [
         # The args class object is used as an argspec for your Operator

@@ -15,10 +15,19 @@ class SubStringOperator(Operator):
     <br>&emsp;<code>{{substr[0,end]:name}} &nbsp;&nbsp;-> "alex"</code>
     <br>&emsp;<code>{{substr[1,3]:name}} &nbsp; &nbsp;&nbsp;&nbsp;-> "le"</code>
     """
+
     name = "substr"
     args = [
-        {"name": "Start Location", "description": "The location we want to start our subset from. This supports numbers as well as \"end\" and \"start\"", "required": True},
-        {"name": "End Location", "description": "The location we want to end our subset at. This supports numbers as well as \"end\" and \"start\"", "required": False},
+        {
+            "name": "Start Location",
+            "description": 'The location we want to start our subset from. This supports numbers as well as "end" and "start"',
+            "required": True,
+        },
+        {
+            "name": "End Location",
+            "description": 'The location we want to end our subset at. This supports numbers as well as "end" and "start"',
+            "required": False,
+        },
     ]
     START_KEY = "start"
     END_KEY = "end"
@@ -49,11 +58,8 @@ class SubStringOperator(Operator):
                 return (
                     "Invalid input value passed to {name}. "
                     "We expect the first argument to be a number or either "
-                    "\"start\" or \"end\" values. "
-                    "{value} was passed instead.".format(
-                        name=self.name,
-                        value=start
-                    )
+                    '"start" or "end" values. '
+                    "{value} was passed instead.".format(name=self.name, value=start)
                 )
 
         if end not in self.keywords:
@@ -63,11 +69,8 @@ class SubStringOperator(Operator):
                 return (
                     "Invalid input value passed to {name}. "
                     "We expect the second argument to be a number or either "
-                    "\"start\" or \"end\" values. "
-                    "{value} was passed instead.".format(
-                        name=self.name,
-                        value=end
-                    )
+                    '"start" or "end" values. '
+                    "{value} was passed instead.".format(name=self.name, value=end)
                 )
         if isinstance(token_value, self.DATA_TYPES):
             # Is valid

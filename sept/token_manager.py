@@ -17,10 +17,7 @@ class TokenManager(object):
     @property
     def tokens(self):
         # Don't include the NULL operator
-        return sorted(
-            self._cache.values(),
-            key=lambda tok: tok.name
-        )
+        return sorted(self._cache.values(), key=lambda tok: tok.name)
 
     def add_custom_tokens(self, custom_tokens, dont_overwrite=True):
         for custom_token in custom_tokens:

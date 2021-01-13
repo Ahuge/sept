@@ -12,10 +12,19 @@ class ReplaceOperator(Operator):
     <br>&emsp;<code>{{replace[ex,an]:name}}&nbsp;&nbsp;   -> "alan"</code>
     <br>&emsp;<code>{{replace[kite,dog:name}} -> "alex"</code>
     """
+
     name = "replace"
     args = [
-        {"name": "Find String", "description": "The characters that you want to search for and replace", "required": True},
-        {"name": "Replace String", "description": "The characters that you want to replace the \"Find String\" with.", "required": True},
+        {
+            "name": "Find String",
+            "description": "The characters that you want to search for and replace",
+            "required": True,
+        },
+        {
+            "name": "Replace String",
+            "description": 'The characters that you want to replace the "Find String" with.',
+            "required": True,
+        },
     ]
     SPACE = "\\s"
     DATA_TYPES = (six.text_type, six.binary_type)

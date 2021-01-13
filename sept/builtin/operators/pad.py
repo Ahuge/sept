@@ -11,6 +11,7 @@ class PadOperator(Operator):
     <br>&emsp;<code>{{pad[1,X]:name}} -> "1"</code>
     <br>&emsp;<code>{{pad[4,0]:name}} -> "0001"</code>
     """
+
     name = "pad"
 
     def is_invalid(self, token_value):
@@ -38,8 +39,7 @@ class PadOperator(Operator):
 
         try:
             template_msg = "{{:{char}>{count}}}".format(
-                char=padding_char,
-                count=padding_count
+                char=padding_char, count=padding_count
             )
             return template_msg.format(input_data)
         except Exception:

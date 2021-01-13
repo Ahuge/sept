@@ -11,6 +11,7 @@ class FirstNameToken(Token):
     """
     The <code>firstname</code> Token will return the "first_name" value from the user data dictionary.
     """
+
     name = "firstname"
 
     def getValue(self, data):
@@ -21,6 +22,7 @@ class LastNameToken(Token):
     """
     The <code>lastname</code> Token will return the "last_name" value from the user data dictionary.
     """
+
     name = "lastname"
 
     def getValue(self, data):
@@ -35,6 +37,7 @@ class FirstCharacterOperator(Operator):
     <br>Examples (name = "alex"):
     <br>&emsp;<code>{{firstletter:name}}&nbsp;&nbsp;   -> "a"</code>
     """
+
     name = "firstletter"
     DATA_TYPES = (six.text_type, six.binary_type)
 

@@ -10,6 +10,7 @@ class LowerOperator(Operator):
     <br>&emsp;<code>"alex" &nbsp;&nbsp;-> "alex"</code>
     <br>&emsp;<code>"ALEX11" -> "alex11"</code>
     """
+
     name = "lower"
 
     def is_invalid(self, token_value):
