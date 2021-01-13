@@ -1,7 +1,5 @@
 class SeptError(RuntimeError):
-    def __init__(self, location, message):
-        super(SeptError, self).__init__(message)
-        self.location = location
+    pass
 
 
 class TokenNotFoundError(SeptError):
@@ -12,9 +10,16 @@ class OperatorError(SeptError):
     pass
 
 
-class ParsingError(SeptError):
-    def __init__(self, location, message):
-        super(ParsingError, self).__init__(location, message)
+class LocationAwareSeptError(SeptError):
+    def __init__(self, location, message, length=0):
+        super(SeptError, self).__init__(message)
+        self.location = location
+        self.length = length
+
+
+class ParsingError(LocationAwareSeptError):
+    def __init__(self, location, message, length=0):
+        super(ParsingError, self).__init__(location=location, message=message, length=length)
 
 
 class MultipleParsingError(ParsingError):
@@ -22,8 +27,10 @@ class MultipleParsingError(ParsingError):
         location = -1
         if errors:
             location = errors[0].location
+        length = max([e.location + e.length for e in errors])
         super(MultipleParsingError, self).__init__(
             location=location,
+            length=length,
             message="\n".join(str(error) for error in errors)
         )
         self.errors = errors
@@ -49,6 +56,7 @@ class InvalidCharacterParsingError(ParsingError):
 
         super(InvalidCharacterParsingError, self).__init__(
             location=self.start_col,
+            length=self.end_col - self.start_col,
             message=msg,
         )
 
@@ -67,6 +75,7 @@ class BalancingParenthesisError(ParsingError):
 
         super(BalancingParenthesisError, self).__init__(
             location=start_location,
+            length=end_location - start_location + 1,
             message=message
         )
 
@@ -84,8 +93,10 @@ class MultipleBalancingError(ParsingError):
         location = -1
         if errors:
             location = errors[0].location
+        length = max([e.location + e.length for e in errors])
         super(MultipleBalancingError, self).__init__(
             location=location,
+            length=length,
             message="\n".join(str(error) for error in errors)
         )
         self.errors = errors
