@@ -5,7 +5,30 @@ from sept.operator import Operator
 
 
 class SubStringOperator(Operator):
+    """
+    The <code>substr</code> Operator allows you to return a subset of the Token.
+    <br>This Operator supports the arguments "start" and "end" as well as numerical indexes from zero.
+    <br>
+    <br>Examples (name = "alex"):
+    <br>&emsp;<code>{{substr[start,2]:name}} -> "al"</code>
+    <br>&emsp;<code>{{substr[0,2]:name}} &nbsp; &nbsp;&nbsp;&nbsp;-> "al"</code>
+    <br>&emsp;<code>{{substr[0,end]:name}} &nbsp;&nbsp;-> "alex"</code>
+    <br>&emsp;<code>{{substr[1,3]:name}} &nbsp; &nbsp;&nbsp;&nbsp;-> "le"</code>
+    """
+
     name = "substr"
+    args = [
+        {
+            "name": "Start Location",
+            "description": 'The location we want to start our subset from. This supports numbers as well as "end" and "start"',
+            "required": True,
+        },
+        {
+            "name": "End Location",
+            "description": 'The location we want to end our subset at. This supports numbers as well as "end" and "start"',
+            "required": False,
+        },
+    ]
     START_KEY = "start"
     END_KEY = "end"
     DATA_TYPES = (six.text_type, six.binary_type)
@@ -22,6 +45,33 @@ class SubStringOperator(Operator):
                 "or two arguments that are either a number or either "
                 '"start" or "end" text values.'.format(name=self.name)
             )
+        if len(args) == 1:
+            start = args
+            end = self.END_KEY
+        else:
+            start, end = args
+
+        if start not in self.keywords:
+            try:
+                int(start)
+            except ValueError:
+                return (
+                    "Invalid input value passed to {name}. "
+                    "We expect the first argument to be a number or either "
+                    '"start" or "end" values. '
+                    "{value} was passed instead.".format(name=self.name, value=start)
+                )
+
+        if end not in self.keywords:
+            try:
+                int(end)
+            except ValueError:
+                return (
+                    "Invalid input value passed to {name}. "
+                    "We expect the second argument to be a number or either "
+                    '"start" or "end" values. '
+                    "{value} was passed instead.".format(name=self.name, value=end)
+                )
         if isinstance(token_value, self.DATA_TYPES):
             # Is valid
             return None

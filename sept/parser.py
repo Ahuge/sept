@@ -1,5 +1,6 @@
 from sept.token_manager import TokenManager
 from sept.operator_manager import OperatorManager
+from sept.documentation import DocumentationGenerator
 from sept.template import Template
 
 
@@ -14,6 +15,17 @@ class PathTemplateParser(object):
         self._operator_manager = OperatorManager()
         if additional_operators:
             self._operator_manager.add_custom_operators(additional_operators)
+
+        self._documentation_generation = DocumentationGenerator(
+            token_manager=self._token_manager,
+            operator_manager=self._operator_manager,
+        )
+
+    def operator_documentation(self):
+        return self._documentation_generation.generate_operator_documentation()
+
+    def token_documentation(self):
+        return self._documentation_generation.generate_token_documentation()
 
     def parse(self, template, data):
         if not isinstance(template, Template):
