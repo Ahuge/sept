@@ -8,6 +8,14 @@ CLOSE_TOK = "}"
 
 
 class ParenthesisBalancer(object):
+    """
+    The ParenthesisBalancer class runs a stack based pairing lookup against the "{{" and "}}" pairs.
+
+    It will check for any unbalanced pairs and return a record of those in addition to any successfuly found pairs
+
+    Successfully matched pairs get returned as a list of [start_index, end_index] values which can be used to generate substrings of only the "Token Expression" chunks.
+    """
+
     def __init__(self, template_str):
         super(ParenthesisBalancer, self).__init__()
         self.template_str = template_str
@@ -20,6 +28,15 @@ class ParenthesisBalancer(object):
         self._errors = []
 
     def execute(self):
+        """
+        execute the template parsing.
+        This method runs the token balancing check and will store any errors as either `sept.errors.OpeningBalancingParenthesisError` or `sept.errors.ClosingBalancingParenthesisError` exceptions, unthrown.
+
+        It returns any successfully found "Token Expressions" at the root level. Any nested "Token Expressions" get validated but not returned as locations from this method.
+
+        :return: Returns a list of "Token Expression" locations as index start:end values and a list of any errors that were encountered.
+        :rtype: list[list,list]
+        """
         # msg = " {} ".format(msg)
         for index, curr_char in enumerate(self.template_str):
             prev_char, next_char = self._get_chars(curr_index=index)
@@ -117,5 +134,12 @@ class ParenthesisBalancer(object):
 
     @classmethod
     def parse_string(cls, template_str):
+        """
+        Standard entrypoint into usage of the ParenthesisBalancer class
+
+        :param str template_str: Template string that we want to validate.
+        :return: Tuple of expression_locations and errors. See `execute` for definition.
+        :rtype: list[list,list]
+        """
         _b = cls(template_str)
         return _b.execute()
