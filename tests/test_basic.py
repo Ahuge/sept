@@ -229,7 +229,7 @@ def test_bad_parsing_error_multi_expression_start():
     except ParsingError as err:
         assert (
             str(err)
-            == 'Error: Missing closing "}}" characters for Token Expression "{{lower:name}{{upper:name}}" (0-26)'
+            == 'Error: Missing closing "}}" characters for Token Expression "{{lower:name}{{upper:name}}" (0-12)'
         )
     else:
         raise AssertionError("Should have raised a ParsingError!")
@@ -318,8 +318,8 @@ def test_parse_raise_missing_operator():
     template_str = r"{{lowerr:name}}/{{upper:name}}"
     try:
         _ = parser.validate_template(template_str)
-    except OperatorNotFoundError as err:
-        return True
+    except ParsingError as err:
+        assert str(err) == "Could not find an Operator with the name lowerr"
     else:
         raise AssertionError("Should have raised a OperatorNotFoundError!")
 

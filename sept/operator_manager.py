@@ -11,6 +11,14 @@ class OperatorManager(object):
         for operator_klass in ALL_OPERATORS:
             self._cache[operator_klass.name] = operator_klass
 
+    @property
+    def operators(self):
+        # Don't include the NULL operator
+        return sorted(
+            filter(lambda op: op._private is False, self._cache.values()),
+            key=lambda op: op.name,
+        )
+
     def add_custom_operators(self, custom_operators, dont_overwrite=True):
         for custom_operator in custom_operators:
             if custom_operator.name in self._cache and dont_overwrite:

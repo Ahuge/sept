@@ -2,6 +2,10 @@ from sept.errors import InvalidOperatorInputDataError
 
 
 class Token(object):
+    """
+    The docstring of your Token will be used as the documentation help message.
+    """
+
     name = NotImplementedError
 
     def getValue(self, data):
@@ -28,6 +32,8 @@ class ResolvedToken(object):
 
     def execute(self, version_data):
         source_data = self.raw_token.getValue(version_data)
+        if source_data is None:
+            return self.original_string
         transformed_data = source_data
 
         previous_operator = None

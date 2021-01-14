@@ -9,6 +9,14 @@ jobs:
         runs-on: ubuntu-latest
         environment: post-release
         steps:
+            - name: Generate Upload URL
+              id: gen-upload-url
+              run: |
+                sudo apt-get install jq;
+                RELEASE_ID=$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH);
+                RELEASE_BODY=$(jq --raw-output '.release.body' $GITHUB_EVENT_PATH);
+                echo ::set-output name=upload-url::https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}/assets
+                echo ::set-output name=release-body::${RELEASE_BODY}
             - uses: actions/checkout@v2
               name: Checkout
             - name: Setup python 2
@@ -47,18 +55,11 @@ jobs:
                 twine check --strict dist/*.whl
                 echo "----------------------------"
                 echo "Uploading: $(ls dist/*.whl | tr '\r\n' ' ')"
-                twine upload dist/*.whl --verbose --skip-existing
+                twine upload dist/*.whl --verbose --skip-existing -c "${{ steps.gen-upload-url.outputs.release-body }}"
               env:
                   TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
                   TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
                   TWINE_NON_INTERACTIVE: 1
-
-            - name: Generate Upload URL
-              id: gen-upload-url
-              run: |
-                sudo apt-get install jq;
-                RELEASE_ID=$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH);
-                echo ::set-output name=upload-url::https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}/assets
             - name: Upload Python 2 Wheel To Github
               uses: actions/upload-release-asset@v1.0.1
               env:

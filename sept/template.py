@@ -1,6 +1,13 @@
 from sept.template_tokenizer import Tokenizer
 from sept.balancer import ParenthesisBalancer
-from sept.errors import ParsingError, MultipleBalancingError
+from sept.errors import (
+    SeptError,
+    ParsingError,
+    MultipleBalancingError,
+    OperatorNotFoundError,
+    TokenNotFoundError,
+    InvalidOperatorInputDataError,
+)
 
 
 class _RawTokenExpression(object):
@@ -30,7 +37,14 @@ class Template(object):
             args = None
             if match.Args:
                 args = match.Args
-            _Operator = omanager.getOperator(match.Operator, args=args)
+            try:
+                _Operator = omanager.getOperator(match.Operator, args=args)
+            except OperatorNotFoundError as err:
+                raise ParsingError(
+                    location=match.start + offset,
+                    length=match.end - match.start,
+                    message=str(err),
+                )
         if match.child:
             resolved_token = cls._gather_match(
                 match=match.child,
@@ -38,23 +52,37 @@ class Template(object):
                 omanager=omanager,
                 default_fallback=default_fallback,
             )
-            resolved_token = tmanager.bind_token(
-                token=resolved_token,
-                operator=_Operator,
-                tok_start=match.start + offset,
-                tok_end=match.end + offset,
-                tok_original_string=match.original_str,
-                default_fallback=default_fallback,
-            )
+            try:
+                resolved_token = tmanager.bind_token(
+                    token=resolved_token,
+                    operator=_Operator,
+                    tok_start=match.start + offset,
+                    tok_end=match.end + offset,
+                    tok_original_string=match.original_str,
+                    default_fallback=default_fallback,
+                )
+            except TokenNotFoundError as err:
+                raise ParsingError(
+                    location=match.start + offset,
+                    length=match.end - match.start,
+                    message=str(err),
+                )
         elif match.Token:
-            resolved_token = tmanager.bind_token(
-                token=match.Token,
-                operator=_Operator,
-                tok_start=match.start + offset,
-                tok_end=match.end + offset,
-                tok_original_string=match.original_str,
-                default_fallback=default_fallback,
-            )
+            try:
+                resolved_token = tmanager.bind_token(
+                    token=match.Token,
+                    operator=_Operator,
+                    tok_start=match.start + offset,
+                    tok_end=match.end + offset,
+                    tok_original_string=match.original_str,
+                    default_fallback=default_fallback,
+                )
+            except TokenNotFoundError as err:
+                raise ParsingError(
+                    location=match.start + offset,
+                    length=match.end - match.start,
+                    message=str(err),
+                )
         else:
             # raise ParsingError("Found Operator without corresponding token.")
             # TODO: Add location in error
@@ -73,7 +101,7 @@ class Template(object):
                 expressions.append(_expr)
             except IndexError:
                 # Unclear how we got here, probably a bug in balancer
-                raise ParsingError("Error extracting Token Expressions")
+                raise SeptError("Error extracting Token Expressions")
         if errors:
             raise MultipleBalancingError(errors)
         return expressions
@@ -132,7 +160,10 @@ class Template(object):
                 result_str[start + offset : end + offset],
                 result_str[end + offset :],
             )
-            transformed = resolved_token.execute(data)
+            try:
+                transformed = resolved_token.execute(data)
+            except InvalidOperatorInputDataError as err:
+                raise ParsingError(location=start, length=end - start, message=str(err))
             result_str = before + transformed + after
             offset += len(transformed) - len(target)
 

@@ -1,4 +1,7 @@
 # Simple Extensible Path Template
+[![SEPT Version](https://img.shields.io/pypi/v/sept.svg)](https://pypi.org/project/sept) [![SEPT Downloads](https://img.shields.io/pypi/dm/sept.svg)](https://pypi.org/project/sept) [![SEPT Supported Python Versions](https://img.shields.io/pypi/pyversions/sept.svg)](https://pypi.org/project/sept) [![Documentation Status](https://readthedocs.org/projects/sept/badge/?version=latest)](https://sept.readthedocs.io/en/latest/?badge=latest)
+
+
 The Simple Extensible Path Template (sept) is a simple to configure templating system designed at relatively simple path translation or path generation from a dictionary of data.
 
 Client code can define a set of Tokens that are in the dictionary of data by creating a subclass of `sept.Token`.
@@ -201,8 +204,8 @@ It takes 1 or 2 arguments, `start` and `end` respectively.
 It also supports the "start" and "end" keywords. This may be easier than teaching a non-technical person that indexes start at 0.
 
 ## ReplaceOperator
-The `replace` Operator will replace a character or set of characters from the text passed to it with another character.  
-It takes 2 arguments, `srcChars` and `dstChars` respectively.  
+The `replace` Operator will replace a character or set of characters from the text passed to it with another character.
+It takes 2 arguments, `srcChars` and `dstChars` respectively.
 It also supports the "\s" keyword. This is because our tokenizer does not store whitespace.
 
 
