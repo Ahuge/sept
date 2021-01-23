@@ -29,7 +29,7 @@ What does ``SEPT`` look like?
 =============================
 
 At a barebones level, ``SEPT`` is a ``Token`` surrounded by two sets of open and close brackets.
-.. code-block:: python
+.. code-block::
 
    My name is {{name}} and my job is {{job}}
 
