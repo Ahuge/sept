@@ -18,7 +18,7 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
-    'nbsphinx',
+    "nbsphinx",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -41,7 +41,7 @@ author = u"Alex Hughes"
 
 
 # nbsphinx stuff
-nbsphinx_kernel_name = 'python2'
+nbsphinx_kernel_name = "python2"
 nbsphinx_allow_errors = True
 
 # The version info for the project you're documenting, acts as replacement for
@@ -63,7 +63,7 @@ language = "en_US"
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", '**.ipynb_checkpoints']
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**.ipynb_checkpoints"]
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "sphinx"
