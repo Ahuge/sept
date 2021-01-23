@@ -34,7 +34,7 @@ class ResolvedToken(object):
         source_data = self.raw_token.getValue(version_data)
         if source_data is None:
             return self.original_string
-        transformed_data = source_data
+        transformed_data = str(source_data)
 
         previous_operator = None
         for operator in self.operators:
