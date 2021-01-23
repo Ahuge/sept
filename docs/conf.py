@@ -42,6 +42,7 @@ author = u"Alex Hughes"
 
 # nbsphinx stuff
 nbsphinx_kernel_name = 'python2'
+nbsphinx_allow_errors = True
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
