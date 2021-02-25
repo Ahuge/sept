@@ -29,6 +29,17 @@ class Template(object):
         self._template_str = ""
         self._resolved_tokens = []
 
+    def __str__(self):
+        return "<{klass} {path}>".format(
+            klass=self.__class__.__name__, path=self._template_str
+        )
+
+    def __repr__(self):
+        return self._template_str
+
+    def text(self):
+        return self._template_str
+
     @classmethod
     def _gather_match(cls, match, tmanager, omanager, offset=0, default_fallback=False):
         _Operator = omanager.getOperator("NULL")

@@ -8,7 +8,8 @@ Client code can define a set of Tokens that are in the dictionary of data by cre
 Advanced users have the ability to define custom Operators that can modify the data in the dictionary.
 
 ## Table Of Contents
-
+- [Non Developer Getting Started](#non-developer-getting-started)
+- [Developer Getting Started](#developer-getting-started)
 - [Examples](#examples)
   - [Hello World](#hello-world-example)
   - [Custom Tokens](#a-slightly-more-complex-example)
@@ -23,6 +24,121 @@ Advanced users have the ability to define custom Operators that can modify the d
   - [replace](#replaceoperator)
   - [datefmt](#todo-datefmtoperator)
 
+# Non Developer Getting Started
+## What is SEPT?
+Simple Extensible Path Template allows you to configure file naming to match client specifications without needing help from a developer.
+SEPT builds paths using a template made up of variables that are called "Tokens".
+
+## Background on why SEPT was created
+SEPT was created due to a problem that I have experienced several times throughout the visual effects industry.
+A visual effects studio will be working on several projects at a time, often from several different movie studios, a common theme from movies studios is to have very strict naming conventions and have them differ from most of the other projects your visual effects studio is currently working on.
+Many visual effects studios will have some way to customize the naming of files once they leave your studio. Sometimes this is a complex templating language often requiring developer assistance, other times this can be as simple as someone having to rename the files semi-manually themselves.
+In all cases, the template language is propriatry. SEPT proposes a standard baseline template language that can be used across any studio that wishes to accept it and soon, SEPT will provide modular graphical compontents that developers can use to get up and running quickly.
+
+## How you use SEPT
+You may have developers at your company that will write software using SEPT and those applications may use SEPT in slightly different ways than this tutorial, however things you learn here should carry over to production work.
+In this tutorial, we will be using a the resulting application that is created from the [Developer Getting Started](#developer-getting-started) tutorial.
+It is a graphical program that will take a handful of Versions from the common project tracking software [Shotgun](https://shotgunsoftware.com) and send them to a centralized folder on disk with a naming template specified by you, all ready to send back to your movie studio.
+This tool uses Shotgun to gather information about the things we are renaming, however there is no reason that SEPT requires Shotgun.
+
+
+## SEPT Client Delivery Tool
+![SEPT Shotgun Deliver To Client Tool](.documents/sept_shotgun_deliver_to_client_tool.png)
+
+### TODO
+  - Image of Shotgun Deliver To Client Tool
+    - Showing 3-5 hardcoded Version data blobs
+    - Pick template from disk (v1)
+    - Live Template Editor (v2)
+    - Token/Operator directory widget
+  - Add images with all template examples
+    - Something like `{{sequence}}/{{shot}}.{{extension}}` to start. All need to be folder paths now
+
+## Some template examples
+
+The following are some examples of path templates that you may write.
+For these examples, let's assume that we are starting with a quicktime movie.
+This movie is in the "Hero" project, the "Boss" sequence and the "001" shot.
+The movie was created in the "comp" step.
+
+The example path in your facility looks like "Hero_Boss_001_comp.mov"
+### A simple path template
+In this example, your client expects the movie file to no longer have the project code when they recieve it.
+For example: `Boss_001_comp.mov`
+
+This means we need to write a custom template to remove the project code.
+
+This is an example template that would achieve our goal:
+```yaml
+{{sequence}}_{{shot}}_{{step}}.{{extension}}
+```
+
+#### Breaking it down
+The template above takes the "sequence" token, the "shot" token, and the "step" token and joins them with an underscore in between them. It then adds the "extension" token at the end of the filename.
+
+To put a "Token" expression in your template you just need to surround it with two sets of curly braces (`{` and `}`).
+```yaml
+{{token}}
+```
+
+### Introduction to Operators
+THere are times when the client requires naming that cannot be created directly by "Tokens" found in the Version in Shotgun.
+In these cases, you may need to apply an "Operator" to the "Token" that you are using.
+
+`SEPT` provides several common "Operators" out of the box, but your developer also has the ability to create custom ones as well.
+If there is functionality that `SEPT` does not provide out of the box, you may need to submit a request to your developer to write a custom "Operator" for your use case.
+
+#### Using an Operator
+To use an "Operator" with your "Token" you need to modify how you write the "Token" expression.
+Instead of `{{token}}`, you can instead write `{{operator:token}}`.
+In the following example, we will be using the `lower` "Operator" which will convert the entire "Token" to lowercase.
+
+#### Lowercase Template Example
+In this example, our client has requested that everything in our filename is lowercase.
+Without using "Operators", there is no easy way to achieve this, you would need to request that the show runner change the name of the sequence from "Boss" to "boss".
+If this is at the start of the project, it may not be a huge deal, but as soon as work has started, this becomes nearly impossible to achieve without having to redo work.
+
+To create a filename that looks like `boss_001_comp.mov`, we just need to apply a `lower` "Operator" on the sequence "Token".
+```yaml
+{{lower:sequence}}_{{shot}}_{{step}}.{{extension}}
+```
+
+### TODO:
+  - ArtistTutorial
+    - Nested Operators
+    - Operators with args
+
+
+
+
+# Developer Getting Started
+## TODO:
+  - Faster version of the AristTutorial (basically what we already have)
+  - Building "Shotgun Deliver To Client Tool" with hardcoded inputs
+    - (v1) Basic UI where you can pick the path to the template
+      - Preview Output Paths
+    - (v2) Live create Templates & Token/Operator directory
+
+  - Integrating in your application example
+    - validating templates
+    - Visualizing valid Tokens
+    - Visualizing documentation for Operators
+    - path previews
+  - API overview
+    - Parser
+      - Basic usage
+      - Adding custom Tokens
+      - Adding custom Operators
+    - Token required values
+      - name
+      - getValue
+    - Operator required values
+      - name
+      - is_invalid
+      - execute
+_______
+Below is old code
+_______
 # Design Goals
 Path Template is designed with non technical editors in mind. These people use computers but have very limited (if at all) experience with programming.
 
