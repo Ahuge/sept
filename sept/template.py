@@ -31,8 +31,7 @@ class Template(object):
 
     def __str__(self):
         return "<{klass} {path}>".format(
-            klass=self.__class__.__name__,
-            path=self._template_str
+            klass=self.__class__.__name__, path=self._template_str
         )
 
     def __repr__(self):
