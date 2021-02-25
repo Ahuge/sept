@@ -21,8 +21,8 @@ Document Structure
    :caption: GETTING STARTED:
 
    Introduction <introduction/introduction.rst>
-   Quick Start <introduction/quick.rst>
-   Developer Quick Start <introduction/developer.rst>
+   User Quick Start <introduction/non-developer.ipynb>
+   Developer Quick Start <introduction/developer.ipynb>
 
 .. toctree::
    :maxdepth: 3
