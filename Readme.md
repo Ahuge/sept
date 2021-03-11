@@ -9,10 +9,6 @@ If you are an artist, producer, or editor, you can use SEPT to control naming of
   
 We have written a "Getting Started" Tutorial for [Users](https://sept.readthedocs.io/en/latest/introduction/non-developer.html) and for [Developers](https://sept.readthedocs.io/en/latest/introduction/developer.html) which will get you up and running with SEPT quickly.  
 
-[![User](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Ahuge/sept/blob/release/docs/introduction/non-developer.ipynb)
-[![Developer](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Ahuge/sept/blob/release/docs/introduction/developer.ipynb)
-
-<br>
 We also support a "live" tutorial thanks to [Google Colab](https://colab.research.google.com/notebooks/intro.ipynb).  
 The [User](https://colab.research.google.com/github/Ahuge/sept/blob/release/docs/introduction/non-developer.ipynb) tutorial and the [Developer](https://colab.research.google.com/github/Ahuge/sept/blob/release/docs/introduction/developer.ipynb)
 
