@@ -21,6 +21,8 @@ extensions = [
     "nbsphinx",
 ]
 
+
+autodoc_mock_imports = ["PySide2.QtGui", "PySide2.QtWidgets", "PySide2.QtCore"]
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
@@ -41,8 +43,9 @@ author = u"Alex Hughes"
 
 
 # nbsphinx stuff
-nbsphinx_kernel_name = "python2"
+nbsphinx_kernel_name = "python3"
 nbsphinx_allow_errors = True
+nbsphinx_execute = "never"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
