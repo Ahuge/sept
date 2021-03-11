@@ -45,7 +45,7 @@ author = u"Alex Hughes"
 # nbsphinx stuff
 nbsphinx_kernel_name = "python3"
 nbsphinx_allow_errors = True
-nbsphinx_execute = 'never'
+nbsphinx_execute = "never"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
